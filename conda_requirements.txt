@@ -1,0 +1,13 @@
+aiohttp
+black
+flake8
+ipython
+mypy
+mypy-protobuf
+numpy
+onnx
+pip
+protobuf
+python
+pytorch
+uvloop

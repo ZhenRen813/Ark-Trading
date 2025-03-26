@@ -1,0 +1,830 @@
+symbolName: EURUSD, symbolId: 1
+symbolName: CREDIT SUISSE, symbolId: 20616
+symbolName: PEUGEOT, symbolId: 20652
+symbolName: UNILEVER, symbolId: 20716
+symbolName: SIEMENS, symbolId: 20796
+symbolName: COFINIMMO, symbolId: 20805
+symbolName: ARCADIS, symbolId: 20811
+symbolName: BHP BILLITON, symbolId: 21347
+symbolName: HONG KONG 50, symbolId: 21497
+symbolName: SINGAPORE AIRLINES, symbolId: 21571
+symbolName: BRIDGESTONE, symbolId: 21580
+symbolName: CHINA MOBILE, symbolId: 21601
+symbolName: ACCIONA, symbolId: 21613
+symbolName: CHINA LARGE-CAP, symbolId: 21680
+symbolName: ADVANCE AUTO PARTS, symbolId: 20016
+symbolName: XPDUSD, symbolId: 22346
+symbolName: REDES ENERGETICAS NACIONAIS, symbolId: 22358
+symbolName: BUILD AMERICA BOND, symbolId: 22360
+symbolName: XBRUSD, symbolId: 10091
+symbolName: BTCUSD, symbolId: 22395
+symbolName: GBPUSD, symbolId: 2
+symbolName: BOUYGUES, symbolId: 20654
+symbolName: TESCO, symbolId: 20792
+symbolName: ABB, symbolId: 20804
+symbolName: RANDSTAD, symbolId: 20880
+symbolName: SOFTWARE, symbolId: 21067
+symbolName: AUSTRALIA 200, symbolId: 21498
+symbolName: SINGAPORE TELECOMMUNICATIONS, symbolId: 21572
+symbolName: CANON, symbolId: 21581
+symbolName: ADELAIDE BRIGHTON, symbolId: 21598
+symbolName: CATHAY PACIFIC, symbolId: 21602
+symbolName: MAPFRE, symbolId: 21614
+symbolName: AB INBEV, symbolId: 21676
+symbolName: MSCI CHINA, symbolId: 21681
+symbolName: FOSSIL, symbolId: 20020
+symbolName: XPTUSD, symbolId: 22348
+symbolName: ENERGIAS DE PORTUGAL, symbolId: 22354
+symbolName: DB AGRICULTURE FUND, symbolId: 22361
+symbolName: XTIUSD, symbolId: 10092
+symbolName: BTCEUR, symbolId: 22396
+symbolName: EURJPY, symbolId: 3
+symbolName: XAUUSD, symbolId: 41
+symbolName: BNP PARIBAS, symbolId: 20758
+symbolName: ROLLS-ROYCE, symbolId: 20869
+symbolName: AAREAL BANK, symbolId: 21144
+symbolName: AEGON, symbolId: 21299
+symbolName: US 500, symbolId: 21499
+symbolName: LINDT, symbolId: 21565
+symbolName: AIMS AMP CAPITAL, symbolId: 21573
+symbolName: ISUZU MOTORS, symbolId: 21583
+symbolName: BANK OF QUEENSLAND, symbolId: 21600
+symbolName: CLP, symbolId: 21603
+symbolName: BANKINTER, symbolId: 21618
+symbolName: EUROPE, symbolId: 21683
+symbolName: BEKAERT, symbolId: 22002
+symbolName: MORGAN STANLEY, symbolId: 20022
+symbolName: NAT.GAS, symbolId: 22344
+symbolName: ALTRI, symbolId: 22350
+symbolName: DB COMMODITY INDEX, symbolId: 22362
+symbolName: ETHUSD, symbolId: 22397
+symbolName: USDJPY, symbolId: 4
+symbolName: XAGUSD, symbolId: 42
+symbolName: AXA, symbolId: 20767
+symbolName: VODAFONE, symbolId: 20978
+symbolName: SONAE, symbolId: 21052
+symbolName: PUMA, symbolId: 21172
+symbolName: US 30, symbolId: 21500
+symbolName: SWATCH, symbolId: 21567
+symbolName: CITY DEVELOPMENTS, symbolId: 21574
+symbolName: KYOCERA, symbolId: 21585
+symbolName: BOLSAS Y MERCADOS, symbolId: 21619
+symbolName: BANK OF EAST ASIA, symbolId: 21645
+symbolName: COMMONWEALTH BANK, symbolId: 21657
+symbolName: ASML, symbolId: 21678
+symbolName: LATIN AMERICA 40, symbolId: 21684
+symbolName: GROUPE BRUXELLES LAMBERT, symbolId: 22008
+symbolName: FACEBOOK, symbolId: 20055
+symbolName: DB OIL FUND, symbolId: 22363
+symbolName: ETHEUR, symbolId: 22398
+symbolName: AUDUSD, symbolId: 5
+symbolName: SEMAPA, symbolId: 20660
+symbolName: REXEL, symbolId: 20775
+symbolName: GLAXOSMITHKLINE, symbolId: 21001
+symbolName: NYRSTAR, symbolId: 21064
+symbolName: NORDEX, symbolId: 21368
+symbolName: US TECH 100, symbolId: 21501
+symbolName: SWISSCOM, symbolId: 21568
+symbolName: SEMBCORP MARINE, symbolId: 21575
+symbolName: MAZDA MOTOR, symbolId: 21586
+symbolName: CAIXABANK, symbolId: 21620
+symbolName: AIA, symbolId: 21646
+symbolName: ANZ, symbolId: 21658
+symbolName: MSCI ALL COUNTRY ASIA, symbolId: 21685
+symbolName: BINCKBANK, symbolId: 21871
+symbolName: BEST BUY, symbolId: 20102
+symbolName: XAGEUR, symbolId: 22311
+symbolName: DB US DOLLAR INDEX, symbolId: 22364
+symbolName: USDCHF, symbolId: 6
+symbolName: DANONE, symbolId: 20790
+symbolName: BP, symbolId: 21425
+symbolName: FRAPORT, symbolId: 21485
+symbolName: GERMANY 40, symbolId: 21502
+symbolName: ZURICH, symbolId: 21570
+symbolName: MITSUBISHI, symbolId: 21587
+symbolName: GAS NATURAL, symbolId: 21621
+symbolName: WILMAR INTERNATIONAL, symbolId: 21633
+symbolName: CITIC, symbolId: 21647
+symbolName: CROWN, symbolId: 21660
+symbolName: MSCI AUSTRALIA, symbolId: 21686
+symbolName: OCI, symbolId: 21873
+symbolName: TELENET, symbolId: 22011
+symbolName: FOOT LOCKER, symbolId: 20135
+symbolName: XAUEUR, symbolId: 22312
+symbolName: JERONIMO MARTINS, symbolId: 22355
+symbolName: DWA MOMENTUM, symbolId: 22365
+symbolName: GBPJPY, symbolId: 7
+symbolName: CASINO, symbolId: 20829
+symbolName: MOTA ENGIL, symbolId: 21453
+symbolName: FRANCE 40, symbolId: 21503
+symbolName: LLOYDS, symbolId: 21553
+symbolName: ADIDAS, symbolId: 21557
+symbolName: NIKON, symbolId: 21588
+symbolName: FERROVIAL, symbolId: 21622
+symbolName: NESTLE, symbolId: 21630
+symbolName: UOL GROUP, symbolId: 21634
+symbolName: HANG SENG BANK, symbolId: 21648
+symbolName: NATIONAL AUSTRALIA BANK, symbolId: 21661
+symbolName: MSCI BRAZIL, symbolId: 21687
+symbolName: TOMTOM, symbolId: 21876
+symbolName: UCB, symbolId: 22012
+symbolName: ABBVIE, symbolId: 20143
+symbolName: DYN L-C VALUE, symbolId: 22366
+symbolName: USDCAD, symbolId: 8
+symbolName: GALP ENERGIA, symbolId: 20711
+symbolName: EDF, symbolId: 20864
+symbolName: SPAIN 35, symbolId: 21504
+symbolName: ALLIANZ, symbolId: 21558
+symbolName: NISSAN MOTOR, symbolId: 21589
+symbolName: IBERDROLA, symbolId: 21623
+symbolName: SWISS RE, symbolId: 21631
+symbolName: SINGAPORE EXCHANGE, symbolId: 21635
+symbolName: KUNLUN ENERGY, symbolId: 21649
+symbolName: INSURANCE AUSTRALIA, symbolId: 21662
+symbolName: MSCI BRIC, symbolId: 21688
+symbolName: BRUNEL INTERNATIONAL, symbolId: 22046
+symbolName: 3I GROUP, symbolId: 22080
+symbolName: GROUPON, symbolId: 20188
+symbolName: EM MKT SOVR DEBT, symbolId: 22367
+symbolName: EURGBP, symbolId: 9
+symbolName: BRITISH AMERICAN TOBACCO, symbolId: 20870
+symbolName: CHRISTIAN DIOR, symbolId: 20945
+symbolName: NETHERLANDS 25, symbolId: 21505
+symbolName: BAYER, symbolId: 21559
+symbolName: SHARP, symbolId: 21590
+symbolName: REPSOL, symbolId: 21624
+symbolName: STARHUB, symbolId: 21636
+symbolName: CHINA UNICOM LTD, symbolId: 21650
+symbolName: QANTAS AIRWAYS, symbolId: 21663
+symbolName: MSCI CANADA, symbolId: 21689
+symbolName: ADECCO, symbolId: 21837
+symbolName: ALTICE, symbolId: 22045
+symbolName: GLOBAL PAYMENTS, symbolId: 20210
+symbolName: FDMNL H-Y CORP B, symbolId: 22368
+symbolName: EURCHF, symbolId: 10
+symbolName: BOLLORE, symbolId: 20965
+symbolName: BARCLAYS, symbolId: 21115
+symbolName: SWITZERLAND 20, symbolId: 21506
+symbolName: COMMERZBANK, symbolId: 21560
+symbolName: SUZUKI MOTOR, symbolId: 21592
+symbolName: TELEFONICA, symbolId: 21625
+symbolName: DBS GROUP, symbolId: 21637
+symbolName: GALAXY ENTERTAINMENT, symbolId: 21652
+symbolName: OIL SEARCH, symbolId: 21664
+symbolName: MSCI CHILE, symbolId: 21690
+symbolName: CLARIANT, symbolId: 21838
+symbolName: IMCD GROUP, symbolId: 22048
+symbolName: AVON PRODUCTS, symbolId: 20241
+symbolName: FINANCIAL PREFRD, symbolId: 22369
+symbolName: AUDJPY, symbolId: 11
+symbolName: VIVENDI, symbolId: 20972
+symbolName: VOLKSWAGEN, symbolId: 21563
+symbolName: UK 100, symbolId: 21576
+symbolName: TOKYO GAS, symbolId: 21593
+symbolName: MEDIASET, symbolId: 21626
+symbolName: CAPITALAND, symbolId: 21638
+symbolName: NEW WORLD DEV, symbolId: 21653
+symbolName: SYDNEY AIRPORT, symbolId: 21665
+symbolName: MSCI GERMANY, symbolId: 21691
+symbolName: DKSH, symbolId: 21839
+symbolName: NN GROUP, symbolId: 22049
+symbolName: DIAMOND OFFSHORE, symbolId: 20298
+symbolName: FTSE RAFI US1000, symbolId: 22370
+symbolName: NZDUSD, symbolId: 12
+symbolName: BIOMERIEUX, symbolId: 21058
+symbolName: EUROPE 50, symbolId: 21577
+symbolName: TOSHIBA, symbolId: 21594
+symbolName: CARL ZEISS, symbolId: 21627
+symbolName: OLAM INTERNATIONAL, symbolId: 21639
+symbolName: BOC, symbolId: 21654
+symbolName: WOOLWORTHS, symbolId: 21666
+symbolName: MSCI INDONESIA, symbolId: 21693
+symbolName: DUFRY, symbolId: 21840
+symbolName: ACERINOX, symbolId: 21861
+symbolName: ROYAL DUTCH SHELL, symbolId: 22051
+symbolName: FTSE RAFI US1500, symbolId: 22371
+symbolName: EXPEDIA, symbolId: 20342
+symbolName: CHFJPY, symbolId: 13
+symbolName: SBM OFFSHORE, symbolId: 20694
+symbolName: ALSTOM, symbolId: 21088
+symbolName: TOYOTA MOTOR, symbolId: 21595
+symbolName: EVONIK, symbolId: 21628
+symbolName: GENTING, symbolId: 21640
+symbolName: ITALY 40, symbolId: 21644
+symbolName: HENDERSON LAND, symbolId: 21655
+symbolName: SCP, symbolId: 21667
+symbolName: MSCI ITALY, symbolId: 21694
+symbolName: GIVAUDAN, symbolId: 21841
+symbolName: ACS, symbolId: 21862
+symbolName: INTER DVD ACHIEV, symbolId: 22372
+symbolName: BANK OF NEW YORK, symbolId: 20375
+symbolName: EURAUD, symbolId: 14
+symbolName: TOTAL, symbolId: 21145
+symbolName: JAPAN 225, symbolId: 21507
+symbolName: HONDA MOTOR, symbolId: 21597
+symbolName: CONTINENTAL, symbolId: 21629
+symbolName: COMFORTDELGRO, symbolId: 21641
+symbolName: ABACUS, symbolId: 21668
+symbolName: CK HUTCHISON, symbolId: 21679
+symbolName: MSCI JAPAN, symbolId: 21695
+symbolName: LOGITECH, symbolId: 21843
+symbolName: AMADEUS IT HOLDING, symbolId: 21863
+symbolName: NATIONAL AMT-FRE, symbolId: 22373
+symbolName: AMERICAN AIRLINES, symbolId: 20396
+symbolName: CADJPY, symbolId: 15
+symbolName: KLEPIERRE, symbolId: 21159
+symbolName: KEPPEL CORP, symbolId: 21642
+symbolName: AJINOMOTO, symbolId: 21656
+symbolName: ALUMINA, symbolId: 21669
+symbolName: MSCI MALAYSIA, symbolId: 21696
+symbolName: LUFTHANSA, symbolId: 21830
+symbolName: LONZA, symbolId: 21844
+symbolName: EBRO FOODS, symbolId: 21864
+symbolName: CHEUNG KONG PROPERTY, symbolId: 22231
+symbolName: PREFERRED PORTFOLIO, symbolId: 22374
+symbolName: DEVON ENERGY, symbolId: 20412
+symbolName: GBPAUD, symbolId: 16
+symbolName: MICHELIN, symbolId: 21161
+symbolName: SATS, symbolId: 21643
+symbolName: COMPUTERSHARE, symbolId: 21671
+symbolName: MSCI MEXICO, symbolId: 21697
+symbolName: DUERR, symbolId: 21832
+symbolName: NOVARTIS, symbolId: 21845
+symbolName: ENDESA, symbolId: 21866
+symbolName: CHINA MERCHANTS HLDGS INTL, symbolId: 22232
+symbolName: ASTELLAS PHARMA, symbolId: 22250
+symbolName: QQQ TRUST SERIES, symbolId: 22375
+symbolName: CATERPILLAR, symbolId: 20418
+symbolName: EURCAD, symbolId: 17
+symbolName: ATOS, symbolId: 21189
+symbolName: COCHLEAR, symbolId: 21674
+symbolName: MSCI PACIFIC, symbolId: 21698
+symbolName: INFINEON, symbolId: 21833
+symbolName: PANALPINA WELTTRANSPORT, symbolId: 21847
+symbolName: INDRA SISTEMAS S.A., symbolId: 21867
+symbolName: ASCENDAS REAL ESTATE, symbolId: 22220
+symbolName: CHINA OVERSEAS LAND & INVEST, symbolId: 22233
+symbolName: DAIKIN INDUSTRIES LTD, symbolId: 22254
+symbolName: S&P 500 LOW VOLATILITY, symbolId: 22376
+symbolName: CHEVRON, symbolId: 20451
+symbolName: AUDCAD, symbolId: 18
+symbolName: CARREFOUR, symbolId: 21214
+symbolName: MSCI SINGAPORE, symbolId: 21699
+symbolName: LEG, symbolId: 21834
+symbolName: UBS GROUP, symbolId: 21854
+symbolName: RED ELECTRICA, symbolId: 21868
+symbolName: ALS, symbolId: 22103
+symbolName: CAPITALAND MALL, symbolId: 22221
+symbolName: CHINA OVERSEAS PROPERTY HOLD, symbolId: 22234
+symbolName: DAIWA SECURITIES, symbolId: 22255
+symbolName: SENIOR LOAN, symbolId: 22377
+symbolName: CROCS, symbolId: 20455
+symbolName: GBPCAD, symbolId: 19
+symbolName: LEGRAND, symbolId: 21216
+symbolName: MSCI SOUTH KOREA, symbolId: 21700
+symbolName: THYSSEN-KRUPP, symbolId: 21835
+symbolName: VISCOFAN, symbolId: 21870
+symbolName: CIE FINANCIERE RICHEMONT, symbolId: 22061
+symbolName: AMP, symbolId: 22104
+symbolName: GOLDEN AGRI-RESOURCES, symbolId: 22223
+symbolName: CHINA RESOURCES BEER, symbolId: 22235
+symbolName: FANUC, symbolId: 22256
+symbolName: WATER RESOURCES, symbolId: 22378
+symbolName: ALCOA, symbolId: 20476
+symbolName: BANK OF AMERICA, symbolId: 20488
+symbolName: USDNOK, symbolId: 22
+symbolName: CREDIT AGRICOLE, symbolId: 21263
+symbolName: MSCI SWITZERLAND, symbolId: 21701
+symbolName: ADVA OPTICAL, symbolId: 22019
+symbolName: GAMESA, symbolId: 22054
+symbolName: SWISS LIFE, symbolId: 22068
+symbolName: APA, symbolId: 22105
+symbolName: JARDINE CYCLE & CARRIAGE, symbolId: 22224
+symbolName: CHINA RESOURCES POWER, symbolId: 22237
+symbolName: FUJITSU, symbolId: 22258
+symbolName: AUDCHF, symbolId: 23
+symbolName: GOPRO, symbolId: 20509
+symbolName: SOCIETE GENERALE, symbolId: 21318
+symbolName: MSCI TAIWAN, symbolId: 21702
+symbolName: AXEL SPRINGER, symbolId: 22022
+symbolName: GRIFOLS, symbolId: 22055
+symbolName: TEMENOS, symbolId: 22072
+symbolName: ARB, symbolId: 22106
+symbolName: OVERSEA-CHINESE BANKING, symbolId: 22225
+symbolName: HANG LUNG PROPERTIES, symbolId: 22238
+symbolName: HITACHI CAPITAL, symbolId: 22260
+symbolName: USDMXN, symbolId: 24
+symbolName: DEXCOM, symbolId: 20519
+symbolName: NATIXIS, symbolId: 21357
+symbolName: MSCI THAILAND, symbolId: 21703
+symbolName: BECHTLE, symbolId: 22025
+symbolName: TECNICAS REUNIDAS, symbolId: 22057
+symbolName: U-BLOX, symbolId: 22073
+symbolName: ARISTOCRAT LEISURE, symbolId: 22107
+symbolName: SEMBCORP INDUSTRIES, symbolId: 22226
+symbolName: HONG KONG & CHINA GAS, symbolId: 22239
+symbolName: IHI, symbolId: 22261
+symbolName: GBPNZD, symbolId: 25
+symbolName: GENERAC HOLDINGS, symbolId: 20589
+symbolName: AIR LIQUIDE, symbolId: 21373
+symbolName: MSCI TURKEY, symbolId: 21704
+symbolName: BEIERSDORF, symbolId: 22026
+symbolName: VZ HOLDING, symbolId: 22078
+symbolName: ASALEO CARE, symbolId: 22108
+symbolName: SIA ENGINEERING, symbolId: 22227
+symbolName: LI & FUNG, symbolId: 22241
+symbolName: JTEKT, symbolId: 22263
+symbolName: CADCHF, symbolId: 27
+symbolName: CITIGROUP, symbolId: 20598
+symbolName: BUREAU VERITAS, symbolId: 21377
+symbolName: MSCI UNITED KINGDOM, symbolId: 21705
+symbolName: BILFINGER, symbolId: 22028
+symbolName: ASX, symbolId: 22110
+symbolName: SINGAPORE PRESS, symbolId: 22228
+symbolName: LINK REIT, symbolId: 22242
+symbolName: KAWASAKI, symbolId: 22265
+symbolName: USDSEK, symbolId: 29
+symbolName: ALLIANCE DATA SYSTEMS, symbolId: 20600
+symbolName: ILIAD, symbolId: 21399
+symbolName: CANCOM, symbolId: 22029
+symbolName: AURIZON, symbolId: 22111
+symbolName: SINGAPORE TECH ENGINEERING, symbolId: 22229
+symbolName: MTR, symbolId: 22243
+symbolName: KOBE STEEL, symbolId: 22266
+symbolName: MSCI EMERGING MARKET, symbolId: 22380
+symbolName: GBPCHF, symbolId: 40
+symbolName: GOGO, symbolId: 20622
+symbolName: DEUTSCHE BANK, symbolId: 21173
+symbolName: VINCI, symbolId: 21408
+symbolName: AUSNET SERVICES, symbolId: 22112
+symbolName: UNITED OVERSEAS BANK, symbolId: 22230
+symbolName: SINO LAND CO, symbolId: 22244
+symbolName: KONICA MINOLTA, symbolId: 22267
+symbolName: IBOXX USD HIGH YIELD, symbolId: 22385
+symbolName: USDCNH, symbolId: 46
+symbolName: ARKEMA, symbolId: 21421
+symbolName: DEUTZ, symbolId: 21459
+symbolName: APPLE, symbolId: 21508
+symbolName: AUTOMOTIVE, symbolId: 22113
+symbolName: SUN HUNG KAI, symbolId: 22245
+symbolName: MARUBENI, symbolId: 22268
+symbolName: 20+ YEAR TREASURY BOND, symbolId: 22387
+symbolName: EURSEK, symbolId: 47
+symbolName: NEXANS, symbolId: 21427
+symbolName: MC DONALDS, symbolId: 21509
+symbolName: TELEFONICA DEUTSCHLAND, symbolId: 21562
+symbolName: AVEO, symbolId: 22114
+symbolName: SWIRE PACIFIC, symbolId: 22246
+symbolName: MITSUBISHI ELECTRIC, symbolId: 22269
+symbolName: CORE S&P 500, symbolId: 22389
+symbolName: GBPZAR, symbolId: 48
+symbolName: IPSEN, symbolId: 21488
+symbolName: MASTERCARD, symbolId: 21510
+symbolName: DEUTSCHE BOERSE, symbolId: 21829
+symbolName: BENDIGO AND ADELAIDE BANK, symbolId: 22115
+symbolName: WHARF, symbolId: 22247
+symbolName: MITSUBISHI HEAVY INDUSTRIES, symbolId: 22270
+symbolName: USDTRY, symbolId: 49
+symbolName: AMAZON, symbolId: 21511
+symbolName: AIR FRANCE-KLM, symbolId: 21605
+symbolName: DEUTSCHE TELEKOM, symbolId: 21831
+symbolName: BLUESCOPE STEEL, symbolId: 22116
+symbolName: MITSUBISHI UFJ FINANCIAL, symbolId: 22272
+symbolName: NZDCHF, symbolId: 50
+symbolName: BOEING, symbolId: 21512
+symbolName: ALTRAN TECHNOLOGIES, symbolId: 21607
+symbolName: DRILLISCH, symbolId: 22033
+symbolName: BRAMBLES, symbolId: 22117
+symbolName: MITSUI CO, symbolId: 22273
+symbolName: EURPLN, symbolId: 51
+symbolName: COCA-COLA, symbolId: 21513
+symbolName: CAPGEMINI, symbolId: 21608
+symbolName: EVOTEC, symbolId: 22034
+symbolName: BREVILLE, symbolId: 22118
+symbolName: MITSUI CHEMICALS, symbolId: 22274
+symbolName: USDZAR, symbolId: 52
+symbolName: GEA GROUP, symbolId: 21246
+symbolName: EXXON, symbolId: 21514
+symbolName: HERMES, symbolId: 21609
+symbolName: CALTEX, symbolId: 22122
+symbolName: MIZUHO FINANCIAL, symbolId: 22276
+symbolName: EURMXN, symbolId: 53
+symbolName: WAL-MART, symbolId: 21515
+symbolName: L'OREAL, symbolId: 21610
+symbolName: JENOPTIK, symbolId: 22038
+symbolName: CARDNO, symbolId: 22123
+symbolName: NEC CORP, symbolId: 22277
+symbolName: EURDKK, symbolId: 54
+symbolName: NIKE, symbolId: 21516
+symbolName: KORIAN, symbolId: 21856
+symbolName: KION GROUP, symbolId: 22039
+symbolName: CARSALES, symbolId: 22124
+symbolName: NIPPON STEEL & SUMIKIN BUSSA, symbolId: 22278
+symbolName: EURHUF, symbolId: 55
+symbolName: RHEINMETALL, symbolId: 20736
+symbolName: MICROSOFT, symbolId: 21517
+symbolName: PERNOD-RICARD, symbolId: 21859
+symbolName: CHALLENGER, symbolId: 22125
+symbolName: NIPPON TELEGRAPH & TELEPHONE, symbolId: 22279
+symbolName: SGDJPY, symbolId: 56
+symbolName: RENAULT, symbolId: 21245
+symbolName: PAYPAL, symbolId: 21518
+symbolName: TAG IMMOBILIEN, symbolId: 22043
+symbolName: CHARTER HALL, symbolId: 22126
+symbolName: NIPPON YUSEN, symbolId: 22280
+symbolName: EURNOK, symbolId: 57
+symbolName: EBAY, symbolId: 21519
+symbolName: EUTELSAT COMMUNICATIONS, symbolId: 22015
+symbolName: CIMIC, symbolId: 22127
+symbolName: NOMURA HOLDINGS, symbolId: 22281
+symbolName: EURHKD, symbolId: 58
+symbolName: ELECTRONIC ARTS, symbolId: 21520
+symbolName: FNAC, symbolId: 22017
+symbolName: COCA-COLA AMATIL, symbolId: 22128
+symbolName: OLYMPUS, symbolId: 22282
+symbolName: GBPNOK, symbolId: 59
+symbolName: GENERAL ELECTRIC, symbolId: 21521
+symbolName: LAGARDERE, symbolId: 22018
+symbolName: CORPORATE TRAVEL MANAGEMENT, symbolId: 22129
+symbolName: PANASONIC, symbolId: 22284
+symbolName: USDHUF, symbolId: 60
+symbolName: SAFRAN, symbolId: 20746
+symbolName: GENERAL MOTORS, symbolId: 21522
+symbolName: CSL, symbolId: 22131
+symbolName: RESONA, symbolId: 22286
+symbolName: NZDCAD, symbolId: 61
+symbolName: SOCIETE BIC, symbolId: 21476
+symbolName: ALPHABET, symbolId: 21523
+symbolName: DEXUS PROPERTY, symbolId: 22133
+symbolName: RICOH, symbolId: 22287
+symbolName: EURZAR, symbolId: 62
+symbolName: GOLDMAN SACHS, symbolId: 21524
+symbolName: DOWNER EDI, symbolId: 22134
+symbolName: SHINSEI BANK, symbolId: 22289
+symbolName: EURCZK, symbolId: 63
+symbolName: HP, symbolId: 21525
+symbolName: DULUXGROUP, symbolId: 22136
+symbolName: SHISEIDO, symbolId: 22290
+symbolName: NZDSGD, symbolId: 64
+symbolName: HOME DEPOT, symbolId: 21526
+symbolName: ESTIA HEALTH, symbolId: 22137
+symbolName: SOJITZ, symbolId: 22291
+symbolName: USDPLN, symbolId: 65
+symbolName: KRAFT HEINZ, symbolId: 21527
+symbolName: EVOLUTION MINING, symbolId: 22138
+symbolName: SUMITOMO CHEMICAL, symbolId: 22292
+symbolName: EURNZD, symbolId: 66
+symbolName: LINKEDIN, symbolId: 21528
+symbolName: FLEXIGROUP, symbolId: 22139
+symbolName: SUMITOMO MITSUI FINANCIAL, symbolId: 22293
+symbolName: AUDNZD, symbolId: 67
+symbolName: NETFLIX, symbolId: 21529
+symbolName: FLIGHT CENTRE TRAVEL, symbolId: 22140
+symbolName: SUMITOMO MITSUI TRUST, symbolId: 22294
+symbolName: EURTRY, symbolId: 68
+symbolName: NVIDIA, symbolId: 21530
+symbolName: FORTESCUE METALS, symbolId: 22141
+symbolName: TAIHEIYO CEMENT, symbolId: 22295
+symbolName: USDDKK, symbolId: 69
+symbolName: ORACLE, symbolId: 21531
+symbolName: G.U.D., symbolId: 22142
+symbolName: TAISEI, symbolId: 22296
+symbolName: NZDJPY, symbolId: 70
+symbolName: PFIZER, symbolId: 21532
+symbolName: G8 EDUCATION, symbolId: 22143
+symbolName: TDK, symbolId: 22297
+symbolName: USDCZK, symbolId: 72
+symbolName: STARBUCKS, symbolId: 21533
+symbolName: GOODMAN, symbolId: 22144
+symbolName: TOKYO ELECTRIC POWER, symbolId: 22298
+symbolName: USDSGD, symbolId: 73
+symbolName: T-MOBILE, symbolId: 21534
+symbolName: GRAINCORP, symbolId: 22145
+symbolName: YAHOO JAPAN, symbolId: 22300
+symbolName: GBPSGD, symbolId: 74
+symbolName: TESLA MOTORS, symbolId: 21535
+symbolName: GWA, symbolId: 22147
+symbolName: VERIZON, symbolId: 21536
+symbolName: HARVEY NORMAN, symbolId: 22148
+symbolName: AUDSGD, symbolId: 22315
+symbolName: WALT DISNEY, symbolId: 21537
+symbolName: HEALTHSCOPE, symbolId: 22149
+symbolName: AUDZAR, symbolId: 22316
+symbolName: XEROX, symbolId: 21538
+symbolName: ILUKA RESOURCES, symbolId: 22150
+symbolName: CADMXN, symbolId: 22319
+symbolName: TRAVELERS COMPANIES, symbolId: 21539
+symbolName: INCITEC PIVOT, symbolId: 22151
+symbolName: CHFSGD, symbolId: 22326
+symbolName: PHILIPS 66, symbolId: 21540
+symbolName: INDEPENDENCE, symbolId: 22152
+symbolName: EURCNH, symbolId: 22330
+symbolName: HERBALIFE, symbolId: 21541
+symbolName: INVOCARE, symbolId: 22154
+symbolName: EURRON, symbolId: 22332
+symbolName: JPMORGAN, symbolId: 21542
+symbolName: IOOF, symbolId: 22155
+symbolName: EURSGD, symbolId: 22333
+symbolName: IBM, symbolId: 21543
+symbolName: IRESS, symbolId: 22156
+symbolName: GBPDKK, symbolId: 22334
+symbolName: AIG, symbolId: 21544
+symbolName: JB HI-FI, symbolId: 22157
+symbolName: GBPTRY, symbolId: 22335
+symbolName: TWITTER, symbolId: 21545
+symbolName: KAROON GAS, symbolId: 22158
+symbolName: NOKJPY, symbolId: 22337
+symbolName: YAHOO, symbolId: 21546
+symbolName: LIQUEFIED NATURAL GAS, symbolId: 22160
+symbolName: NOKSEK, symbolId: 22338
+symbolName: VISA, symbolId: 21547
+symbolName: MACQUARIE, symbolId: 22163
+symbolName: USDRON, symbolId: 22342
+symbolName: UNION PACIFIC, symbolId: 21549
+symbolName: MCMILLAN SHAKESPEARE, symbolId: 22164
+symbolName: SEKJPY, symbolId: 22340
+symbolName: FERRARI, symbolId: 21578
+symbolName: MEDIBANK PRIVATE, symbolId: 22165
+symbolName: NZDSEK, symbolId: 22339
+symbolName: ABBOTT, symbolId: 21706
+symbolName: METCASH, symbolId: 22166
+symbolName: GBPSEK, symbolId: 10093
+symbolName: ABERCROMBIE, symbolId: 21707
+symbolName: MINERAL RESOURCES, symbolId: 22167
+symbolName: ACCO, symbolId: 21708
+symbolName: MIRVAC, symbolId: 22168
+symbolName: ACHILLION, symbolId: 21709
+symbolName: MONADELPHOUS, symbolId: 22169
+symbolName: ACI, symbolId: 21710
+symbolName: NAVITAS, symbolId: 22170
+symbolName: ACTIVISION, symbolId: 21711
+symbolName: NEWCREST MINING, symbolId: 22171
+symbolName: ADOBE, symbolId: 21712
+symbolName: NUFARM, symbolId: 22172
+symbolName: ADVANCED MICRO DEVICES, symbolId: 21713
+symbolName: ORICA, symbolId: 22173
+symbolName: AECOM, symbolId: 21714
+symbolName: ORIGIN ENERGY, symbolId: 22174
+symbolName: AEGION, symbolId: 21715
+symbolName: OZ MINERALS, symbolId: 22175
+symbolName: ACXIOM, symbolId: 21716
+symbolName: PACT GROUP, symbolId: 22176
+symbolName: AGL RESOURCES, symbolId: 21717
+symbolName: PERPETUAL, symbolId: 22177
+symbolName: ALLEGIANT TRAVEL, symbolId: 21718
+symbolName: PLATINUM ASSET MANAGEMENT, symbolId: 22178
+symbolName: ALON USA, symbolId: 21719
+symbolName: PREMIER INVESTMENTS, symbolId: 22179
+symbolName: BANK OF THE OZARKS, symbolId: 21720
+symbolName: QBE INSURANCE, symbolId: 22181
+symbolName: BANKUNITED, symbolId: 21721
+symbolName: QUBE, symbolId: 22182
+symbolName: BANNER, symbolId: 21722
+symbolName: RAMSAY HEALTH CARE, symbolId: 22183
+symbolName: BIOGEN, symbolId: 21723
+symbolName: REGIS RESOURCES, symbolId: 22184
+symbolName: BLACKROCK, symbolId: 21724
+symbolName: SANDFIRE, symbolId: 22186
+symbolName: BROOKFIELD, symbolId: 21725
+symbolName: SANTOS, symbolId: 22187
+symbolName: CAKE, symbolId: 21726
+symbolName: SCENTRE, symbolId: 22188
+symbolName: CITIZENS FINANCIAL, symbolId: 21727
+symbolName: SEEK, symbolId: 22189
+symbolName: COLGATE-PALMOLIVE, symbolId: 21728
+symbolName: SEVEN WEST MEDIA, symbolId: 22191
+symbolName: COLUMBIA, symbolId: 21729
+symbolName: SONIC HEALTHCARE, symbolId: 22193
+symbolName: COMMERCE BANCSHARES, symbolId: 21730
+symbolName: SOUTH32, symbolId: 22194
+symbolName: DISCOVER FINANCIAL, symbolId: 21731
+symbolName: SOUTHERN CROSS MEDIA, symbolId: 22195
+symbolName: DONALDSON, symbolId: 21732
+symbolName: SPARK INFRASTRUCTURE, symbolId: 22196
+symbolName: DR PEPPER SNAPPLE, symbolId: 21733
+symbolName: SPOTLESS, symbolId: 22197
+symbolName: EAGLE MATERIALS, symbolId: 21734
+symbolName: STEADFAST, symbolId: 22198
+symbolName: ENERGIZER, symbolId: 21735
+symbolName: STOCKLAND, symbolId: 22199
+symbolName: ESSEX PROPERTY TRUST, symbolId: 21736
+symbolName: SUNCORP, symbolId: 22200
+symbolName: FEDERAL REALTY, symbolId: 21737
+symbolName: SUPER RETAIL, symbolId: 22201
+symbolName: FEDEX, symbolId: 21738
+symbolName: SYRAH, symbolId: 22202
+symbolName: FORD MOTOR, symbolId: 21739
+symbolName: TABCORP, symbolId: 22203
+symbolName: FRANKLIN RESOURCES, symbolId: 21740
+symbolName: TASSAL, symbolId: 22204
+symbolName: GAMESTOP, symbolId: 21741
+symbolName: TELSTRA, symbolId: 22206
+symbolName: GAP, symbolId: 21742
+symbolName: TPG TELECOM, symbolId: 22207
+symbolName: GUESS, symbolId: 21743
+symbolName: TRANSURBAN, symbolId: 22208
+symbolName: HARLEY-DAVIDSON, symbolId: 21744
+symbolName: TREASURY WINE, symbolId: 22209
+symbolName: HERTZ, symbolId: 21745
+symbolName: VILLAGE ROADSHOW, symbolId: 22212
+symbolName: HILTON, symbolId: 21746
+symbolName: VOCUS COMMUNICATIONS, symbolId: 22213
+symbolName: HYATT, symbolId: 21747
+symbolName: WESFARMERS, symbolId: 22214
+symbolName: IHS, symbolId: 21748
+symbolName: WESTERN AREAS, symbolId: 22215
+symbolName: INTERACTIVE BROKERS, symbolId: 21750
+symbolName: WESTPAC BANKING, symbolId: 22217
+symbolName: JACK, symbolId: 21752
+symbolName: WOODSIDE PETROLEUM, symbolId: 22218
+symbolName: JETBLUE AIRWAYS, symbolId: 21753
+symbolName: WORLEYPARSONS, symbolId: 22219
+symbolName: KELLOGG, symbolId: 21754
+symbolName: KINDER MORGAN, symbolId: 21755
+symbolName: KIRBY, symbolId: 21756
+symbolName: KOSMOS ENERGY, symbolId: 21757
+symbolName: LANCASTER, symbolId: 21758
+symbolName: LASALLE HOTEL, symbolId: 21759
+symbolName: LIVEPERSON, symbolId: 21760
+symbolName: THE GARDEN, symbolId: 21761
+symbolName: MARRIOTT, symbolId: 21762
+symbolName: METLIFE, symbolId: 21763
+symbolName: MGM, symbolId: 21764
+symbolName: MOODYS, symbolId: 21765
+symbolName: MOSAIC, symbolId: 21766
+symbolName: MOTOROLA, symbolId: 21767
+symbolName: MSC, symbolId: 21768
+symbolName: NEW YORK TIMES, symbolId: 21769
+symbolName: NGL ENERGY, symbolId: 21770
+symbolName: NIELSEN HOLDINGS, symbolId: 21771
+symbolName: OASIS PETROLEUM, symbolId: 21772
+symbolName: OCCIDENTAL PETROLEUM, symbolId: 21773
+symbolName: OLD REPUBLIC, symbolId: 21774
+symbolName: PACKAGING, symbolId: 21775
+symbolName: PANERA BREAD, symbolId: 21776
+symbolName: PAPA JOHNS, symbolId: 21777
+symbolName: PARSLEY ENERGY, symbolId: 21778
+symbolName: PAYCOM, symbolId: 21779
+symbolName: PEPSICO, symbolId: 21780
+symbolName: PHILIP MORRIS, symbolId: 21781
+symbolName: POLARIS, symbolId: 21782
+symbolName: POPEYES, symbolId: 21783
+symbolName: POST HOLDINGS, symbolId: 21784
+symbolName: REGENCY CENTERS, symbolId: 21785
+symbolName: REINSURANCE, symbolId: 21786
+symbolName: ROCKWELL AUTOMATION, symbolId: 21787
+symbolName: ROYAL GOLD, symbolId: 21788
+symbolName: RPC, symbolId: 21789
+symbolName: RUCKUS WIRELESS, symbolId: 21790
+symbolName: SANDISK, symbolId: 21791
+symbolName: SM ENERGY, symbolId: 21792
+symbolName: SOLARCITY, symbolId: 21793
+symbolName: SONOCO PRODUCTS, symbolId: 21795
+symbolName: SOUTHWESTERN ENERGY, symbolId: 21796
+symbolName: SPIRIT AIRLINES, symbolId: 21797
+symbolName: ST JUDE MEDICAL, symbolId: 21798
+symbolName: STARWOOD, symbolId: 21799
+symbolName: STATE STREET, symbolId: 21800
+symbolName: SUNEDISON, symbolId: 21801
+symbolName: SUPERIOR ENERGY SERVICES, symbolId: 21802
+symbolName: SVB FINANCIA, symbolId: 21803
+symbolName: SYMANTEC, symbolId: 21804
+symbolName: T ROWE PRICE, symbolId: 21805
+symbolName: TARGA RESOURCES, symbolId: 21806
+symbolName: TAUBMAN CENTERS, symbolId: 21807
+symbolName: TELEDYNE TECHNOLOGIES, symbolId: 21808
+symbolName: TELEPHONE AND DATA SYSTEMS, symbolId: 21809
+symbolName: TETRA TECH, symbolId: 21810
+symbolName: TIFFANY, symbolId: 21811
+symbolName: TIME WARNER CABLE, symbolId: 21812
+symbolName: TRIPADVISOR, symbolId: 21813
+symbolName: TRIUMPH, symbolId: 21814
+symbolName: TUPPERWARE, symbolId: 21815
+symbolName: VALEANT PHARMACEUTICALS, symbolId: 21817
+symbolName: WESTERN UNION, symbolId: 21818
+symbolName: WHIRLPOOL, symbolId: 21819
+symbolName: XCEL ENERGY, symbolId: 21820
+symbolName: YELP, symbolId: 21821
+symbolName: YUM!, symbolId: 21822
+symbolName: AARONS, symbolId: 21877
+symbolName: ABAXIS, symbolId: 21878
+symbolName: ACADIA REALTY TRUST, symbolId: 21879
+symbolName: ACUITY BRANDS, symbolId: 21880
+symbolName: ADTRAN, symbolId: 21881
+symbolName: ADVISORY BOARD, symbolId: 21882
+symbolName: AES, symbolId: 21883
+symbolName: AFFILIATED MANAGERS, symbolId: 21885
+symbolName: AGCO, symbolId: 21886
+symbolName: AGIOS PHARMACEUTICALS, symbolId: 21887
+symbolName: AIR LEASE, symbolId: 21888
+symbolName: AIR METHODS, symbolId: 21889
+symbolName: AIRGAS, symbolId: 21890
+symbolName: AK STEEL, symbolId: 21891
+symbolName: AKAMAI TECHNOLOGIES, symbolId: 21892
+symbolName: ALASKA AIR, symbolId: 21893
+symbolName: ALLEGHENY TECHNOLOGIES, symbolId: 21894
+symbolName: ALLERGAN, symbolId: 21895
+symbolName: ALLIANT ENERGY, symbolId: 21896
+symbolName: ALLISON TRANSMISSION, symbolId: 21897
+symbolName: ALLY FINANCIAL, symbolId: 21898
+symbolName: AMBARELLA, symbolId: 21899
+symbolName: AMC NETWORKS, symbolId: 21900
+symbolName: AMDOCS, symbolId: 21901
+symbolName: AMERICAN ASSETS TRUST, symbolId: 21902
+symbolName: AMERICAN FINANCIAL, symbolId: 21903
+symbolName: AMERICAN TOWER, symbolId: 21904
+symbolName: AMPHENOL, symbolId: 21905
+symbolName: BANCORP, symbolId: 21906
+symbolName: BIG LOTS, symbolId: 21907
+symbolName: BIO-RAD LABORATORIES, symbolId: 21908
+symbolName: BIOMARIN PHARMACEUTICALS, symbolId: 21909
+symbolName: BLACK HILLS, symbolId: 21911
+symbolName: BLACKSTONE, symbolId: 21912
+symbolName: BLOOMIN BRANDS, symbolId: 21913
+symbolName: BOK FINANCIAL, symbolId: 21914
+symbolName: BUFFALO WILD WINGS, symbolId: 21916
+symbolName: CALPINE, symbolId: 21918
+symbolName: CARLISLE, symbolId: 21919
+symbolName: CHIMERA INVESTMENT, symbolId: 21920
+symbolName: CINCINNATI FINANCIAL, symbolId: 21921
+symbolName: COMPUTER SCIENCES, symbolId: 21923
+symbolName: COSTAR GROUP, symbolId: 21924
+symbolName: COTY, symbolId: 21925
+symbolName: CROWN HOLDINGS, symbolId: 21926
+symbolName: DELTA AIR LINES, symbolId: 21927
+symbolName: DILLARDS, symbolId: 21928
+symbolName: DISCOVERY COMMUNICATIONS, symbolId: 21929
+symbolName: DU PONT, symbolId: 21930
+symbolName: EBIX, symbolId: 21931
+symbolName: ECOLAB, symbolId: 21932
+symbolName: EDISON, symbolId: 21933
+symbolName: EQUINIX, symbolId: 21934
+symbolName: EXPRESS, symbolId: 21935
+symbolName: FNB, symbolId: 21936
+symbolName: FOREST CITY ENTERPRISES, symbolId: 21937
+symbolName: FORTRESS INVESTMENT, symbolId: 21938
+symbolName: G-III APPAREL, symbolId: 21939
+symbolName: GRACO, symbolId: 21941
+symbolName: GRUBHUB, symbolId: 21942
+symbolName: HANCOCK HOLDING, symbolId: 21943
+symbolName: HONEYWELL INTERNATIONAL, symbolId: 21944
+symbolName: HORIZON PHARMA, symbolId: 21945
+symbolName: HUNTSMAN, symbolId: 21946
+symbolName: INTERNATIONAL GAME, symbolId: 21947
+symbolName: INTL SPEEDWAY, symbolId: 21948
+symbolName: INVESCO, symbolId: 21949
+symbolName: IROBOT, symbolId: 21950
+symbolName: IRON MOUNTAIN, symbolId: 21951
+symbolName: JUNIPER NETWORKS, symbolId: 21952
+symbolName: KAR AUCTION SERVICES, symbolId: 21953
+symbolName: KIMCO REALTY, symbolId: 21954
+symbolName: LENNOX, symbolId: 21955
+symbolName: LEXMARK, symbolId: 21956
+symbolName: LOEWS, symbolId: 21957
+symbolName: LOUISIANA-PACIFIC, symbolId: 21958
+symbolName: MAGELLAN HEALTH, symbolId: 21959
+symbolName: MOHAWK INDUSTRIES, symbolId: 21960
+symbolName: MSG NETWORKS, symbolId: 21961
+symbolName: MURPHY USA, symbolId: 21962
+symbolName: NEUSTAR, symbolId: 21963
+symbolName: NEWS CORP, symbolId: 21964
+symbolName: OAKTREE CAPITAL, symbolId: 21965
+symbolName: OFFICE DEPOT, symbolId: 21966
+symbolName: OIL STATES INTERNATIONAL, symbolId: 21967
+symbolName: PACWEST BANCORP, symbolId: 21969
+symbolName: PALO ALTO NETWORKS, symbolId: 21970
+symbolName: PARKER HANNIFIN, symbolId: 21971
+symbolName: PIEDMONT NATURAL GAS, symbolId: 21973
+symbolName: PIONEER NATURAL RESOURCES, symbolId: 21974
+symbolName: PUMA BIOTECHNOLOGY, symbolId: 21975
+symbolName: RALPH LAUREN, symbolId: 21976
+symbolName: ROLLINS, symbolId: 21977
+symbolName: ROSS STORES, symbolId: 21978
+symbolName: ROYAL CARIBBEAN CRUISES, symbolId: 21979
+symbolName: SKYWORKS SOLUTIONS, symbolId: 21980
+symbolName: STEVEN MADDEN, symbolId: 21981
+symbolName: SUNSTONE HOTEL, symbolId: 21982
+symbolName: THOMSON REUTERS, symbolId: 21983
+symbolName: THOR INDUSTRIES, symbolId: 21984
+symbolName: TOTAL SYSTEM SERVICES, symbolId: 21985
+symbolName: US STEEL, symbolId: 21988
+symbolName: VALMONT, symbolId: 21990
+symbolName: VENTAS, symbolId: 21991
+symbolName: VIASAT, symbolId: 21993
+symbolName: VISTA OUTDOOR, symbolId: 21994
+symbolName: WASHINGTON FEDERAL, symbolId: 21995
+symbolName: WESTROCK, symbolId: 21996
+symbolName: WORKDAY, symbolId: 21997
+symbolName: WORTHINGTON INDUSTRIES, symbolId: 21998
+symbolName: CHINA LIFE INSURANCE, symbolId: 22301
+symbolName: QIHOO 360, symbolId: 22303
+symbolName: 58.COM, symbolId: 22304
+symbolName: SINA, symbolId: 22305
+symbolName: BAIDU, symbolId: 22306
+symbolName: ALIBABA, symbolId: 22307
+symbolName: CHINA UNICOM, symbolId: 22308
+symbolName: FIAT CHRYSLER, symbolId: 22309
+symbolName: US COMMODITY INDEX, symbolId: 21986
+symbolName: US NATURAL GAS FUND, symbolId: 21816
+symbolName: SPDR S&P CHINA, symbolId: 21682
+symbolName: US OIL FUND, symbolId: 21987
