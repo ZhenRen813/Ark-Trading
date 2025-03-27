@@ -7,7 +7,7 @@ import datetime
 import gc
 from mockTrading import MockTradingSingle,MockTrading
 import sys
-sys.path.append('/Users/aaron/Development/trade/waterstart/src')
+sys.path.append('../src')
 from TradingSignalService import SymbolInfo,TickData,PairsTradeSignalService
 from MarginService import Position,MarginManager
 
