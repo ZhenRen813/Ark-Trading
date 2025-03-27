@@ -4,22 +4,14 @@ import datetime
 from typing import Optional, TypeVar
 import calendar
 import sys
-sys.path.append('/Users/aaron/Development/trade/waterstart')
-import real_time_algo as rt
+sys.path.append('..')
 import pandas as pd
-import trade_position as tp
-import paris_trading_2 as pt2
-from paris_trading_2 import TradeSignal
 from backtest import PairsTradingBacktester
 from TradingSignalService import SymbolInfo,PairsTradeSignalService
 
-from real_time_algo import PairsTradingRealtime
-
 
 import numpy as np
-from aioitertools import next
 from google.protobuf.message import Message
-from google import protobuf
 from waterstart.client import OpenApiClient
 from waterstart.openapi import (
     M1,
