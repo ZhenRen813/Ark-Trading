@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/aaron/Development/trade/waterstart/src')
+sys.path.append('../src')
 from MarginService import MarginManager
 
 class Position:
