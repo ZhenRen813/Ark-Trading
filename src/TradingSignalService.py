@@ -117,10 +117,10 @@ class PairsTradeSignalService(BaseTradeSignalService):
             # log(f"协整关系有效 pvalue:{pvalue},参数:{self.zscore_params}")
             return True
         else:
-            # print("协整关系无效")
+            print("协整关系无效")
             # 协整关系失效时清除参数
-            self.hedge_ratio = None
-            self.zscore_params = {}
+            # self.hedge_ratio = None
+            # self.zscore_params = {}
             # 强制平仓
             return False
         
