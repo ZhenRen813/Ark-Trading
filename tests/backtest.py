@@ -136,6 +136,11 @@ class PairsTradingBacktester:
         }).dropna()
         self.current_data = self.data
         print(f"重新加载数据:BTC:{btc_data['close']},ETH:{eth_data['close']},datalen:{len(self.current_data)}")
+        self.service.data = pd.DataFrame({
+            'BTCUSD': btc_data['close'],
+            'ETHUSD': eth_data['close']
+        }).dropna()
+        self.service.update_data(None)
 
     def _update_used_margin(self, margin):
         self.used_margin = margin
@@ -436,7 +441,7 @@ if __name__ == "__main__":
     # 初始化回测器
     
     # read trader_allData.csv
-    all_data = pd.read_csv('data0315.csv')
+    all_data = pd.read_csv('data0329.csv')
     all_data[['BTC']] = all_data[['BTC']] / 100000
     all_data[['ETH']] = all_data[['ETH']] / 100000
 
@@ -447,7 +452,7 @@ if __name__ == "__main__":
 # 总交易次数: 18
 # 建仓次数:12
 # 平仓次数:6
-    # all_data = all_data.tail(5000)
+    all_data = all_data.tail(1000)
 
     entry_z_arr = [1.7,1.8,1.9,2.0]
     windows = [160,170,180,190,200,300]
@@ -474,7 +479,7 @@ if __name__ == "__main__":
             # del MockTradingSingle.shared
             # gc.collect()
     MockTradingSingle.shared = MockTrading(balance=1500,leverage=100)
-    backtester = PairsTradingBacktester(entry_z=1.5, exit_z=0.6,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
+    backtester = PairsTradingBacktester(entry_z=1.5, exit_z=0.8,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
     backtester.run_backtest_2(all_data, window=180)
 
     # 加载数据（示例数据）

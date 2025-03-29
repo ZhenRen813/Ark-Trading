@@ -60,9 +60,11 @@ class PairsTradeSignalService(BaseTradeSignalService):
         self.symbol_names = [ symbolName for symbolName in self.symbols.keys() ]
 
     def update_data(self, ticks:dict[str,TickData]):
+        print('suck')
         """更新数据"""
         # print(f"更新数据:BTC:{btc_price},ETH:{eth_price},datalen:{len(self.current_data)}")
-        super().update_data(ticks)
+        if ticks is not None:
+            super().update_data(ticks)
 
         # self.data.loc[len(self.data)] = {
         #     'BTC': ticks['BTCUSD'].price,
@@ -85,12 +87,12 @@ class PairsTradeSignalService(BaseTradeSignalService):
             return
         
         # 打印当前数据量
-        # print(f"当前数据量: {len(self.data)}")
+        print(f"当前数据量: {len(self.data)}")
 
         handle_data = self.data.copy()
         alpha = 0.5
 
-        if len(self.symbols) != 2:
+        if len(self.symbol_names) != 2:
             ValueError("Only two symbols are supported")
 
         # 平滑价差序列
