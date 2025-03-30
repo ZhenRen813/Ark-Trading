@@ -101,13 +101,17 @@ class OpenApiClient(Observable[Message]):
         return messageproto.FromString(protomessage.payload)
 
     async def _read_message(self) -> Optional[Message]:
-        length_data = await self.reader.readexactly(4)
-        length = int.from_bytes(length_data, byteorder="big")
-        if length <= 0:
-            return None
+        try:
+            length_data = await asyncio.wait_for(self.reader.readexactly(4), timeout=60)
+            length = int.from_bytes(length_data, byteorder="big")
+            if length <= 0:
+                return None
 
-        payload_data = await self.reader.readexactly(length)
-        return self._parse_message(payload_data)
+            payload_data = await self.reader.readexactly(length)
+            return self._parse_message(payload_data)
+        except asyncio.TimeoutError:
+            exp = Exception("Timeout")
+            raise exp
 
     async def _get_async_iterator(self) -> AsyncIterator[Message]:
         while True:

@@ -66,6 +66,11 @@ class AccountInfo:
     CLIENT_SECRET = "hpGJohkYLBBDuzd1nYkb6YPuZD74hE45yGTu9U0nNwJxwlurQu"
     ACCESS = "vLWbVxkdpbsjyCcsbURRNRk491IqOgzqQfr2dOcN4bA"
 
+class RunParams:
+    Enter_Z = 1.5
+    Exit_Z = 0.8
+    Window = 180
+
 class ETHSymbolInfo:
     SYMBOL_NAME = "ETHUSD"
 
@@ -74,7 +79,7 @@ class BTCSymbolInfo:
 
 HOST = EndPoints.PROTOBUF_DEMO_HOST
 PORT = EndPoints.PROTOBUF_PORT
-ACCOUNT_ID = 42563188#42750992#
+ACCOUNT_ID = AccountInfo.ACCOUNT_ID
 
 T = TypeVar("T", bound=Message)
 
@@ -85,7 +90,7 @@ Price_Digits = 100000
 def request_trendbars(symbol_id: int, period: int, count = 60 * 24 * 1,day = 1) -> ProtoOAGetTrendbarsReq:
     print("requesting trendbars")
     current_time = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
-    from_timestamp = (current_time - 60 * (180)) * 1000
+    from_timestamp = (current_time - 60 * (RunParams.Window)) * 1000
     print(symbol_id, period, from_timestamp)
     print("from")
     print(datetime.datetime.utcfromtimestamp(from_timestamp / 1000))
@@ -338,7 +343,7 @@ async def main() -> None:
         # await async_updateBalance()
 
 
-    algo = PairsTradingBacktester(entry_z=1.5, exit_z=0.8,initial_cash=0,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
+    algo = PairsTradingBacktester(entry_z=RunParams.Enter_Z, exit_z=RunParams.Exit_Z,initial_cash=0,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
     def updateBalance():
         loop = asyncio.get_event_loop()
         asyncio.run_coroutine_threadsafe(async_updateBalance(), loop)
@@ -409,7 +414,7 @@ async def main() -> None:
                 symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,25)
 
         print(symbol_ids)
-        algo.service = PairsTradeSignalService(data=None,symbols=symbol_infos,window=180,settings={'entry_z':algo.entry_z,'exit_z':algo.exit_z})
+        algo.service = PairsTradeSignalService(data=None,symbols=symbol_infos,window=RunParams.Window,settings={'entry_z':algo.entry_z,'exit_z':algo.exit_z})
 
         trade_req = ProtoOATraderReq(ctidTraderAccountId=ACCOUNT_ID)
         trade_res = await client.send_and_wait_response(trade_req, ProtoOATraderRes)
@@ -507,9 +512,24 @@ async def main() -> None:
 
     except Exception as ex:
         print(ex)
+        await client.close()
+        raise ex
     finally:
         print("closing connection")
         await client.close()
 
-asyncio.run(main(), debug=True)
+async def run_forever():
+    while True:
+        try:
+            await main()
+        except Exception:
+            # 可选：添加重启前的延迟（避免高频崩溃）
+            await asyncio.sleep(5)
+            print("重启 main()...")
+            continue
+        else:
+            # 如果 main() 正常退出（非异常），则终止循环
+            break
+
+asyncio.run(run_forever(), debug=True)
 print("done")
