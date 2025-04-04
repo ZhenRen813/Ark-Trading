@@ -7,7 +7,7 @@ import sys
 sys.path.append('..')
 import pandas as pd
 from backtest import PairsTradingBacktester
-from TradingSignalService import SymbolInfo,PairsTradeSignalService
+from TradingSignalService import SymbolInfo, PairsTradeSignalService, ETHSymbolInfo, BTCSymbolInfo
 
 
 import numpy as np
@@ -60,22 +60,20 @@ class EndPoints:
     PROTOBUF_LIVE_HOST = "live.ctraderapi.com"
     PROTOBUF_PORT = 5035
 
+class ACCOUNT:
+    USD = 42750992
+    EUD = 42563188
+
 class AccountInfo:
-    ACCOUNT_ID = 42563188#42750992#
+    ACCOUNT_ID = ACCOUNT.USD
     CLIENT_ID = "13628_lbJ2ix1H7UFg5W8ar2eeoFOL0xJUR88G2BLhdvJqnCWtytEzSn"
     CLIENT_SECRET = "hpGJohkYLBBDuzd1nYkb6YPuZD74hE45yGTu9U0nNwJxwlurQu"
     ACCESS = "vLWbVxkdpbsjyCcsbURRNRk491IqOgzqQfr2dOcN4bA"
 
 class RunParams:
-    Enter_Z = 1.5
-    Exit_Z = 0.8
+    Enter_Z = 1.8
+    Exit_Z = 0.6
     Window = 180
-
-class ETHSymbolInfo:
-    SYMBOL_NAME = "ETHUSD"
-
-class BTCSymbolInfo:
-    SYMBOL_NAME = "BTCUSD"
 
 HOST = EndPoints.PROTOBUF_DEMO_HOST
 PORT = EndPoints.PROTOBUF_PORT
@@ -175,8 +173,8 @@ realTime = RealTimePrice()
 balance = 0
 
 local_data = pd.DataFrame({
-            'ETH': [],
-            'BTC': []
+            ETHSymbolInfo.SYMBOL_NAME: [],
+            BTCSymbolInfo.SYMBOL_NAME: []
         }).dropna()
 # trader = rt.PairsTradingRealtime()
 # position = tp.PairsTradingPosition(available_margin=1000,total_capital=1000) # TODO: 传入账户总资金和当前仓位
@@ -211,8 +209,8 @@ async def scheduled_task(client,realtime, trendbarDa,result_queue, symbol_id1, s
         
         df1,df2 = processData(trendbarData.btcData, trendbarData.ethData)
         dataFrame = pd.DataFrame({
-            'ETH': df1['close']/Price_Digits,
-            'BTC': df2['close']/Price_Digits
+            ETHSymbolInfo.SYMBOL_NAME: df1['close']/Price_Digits,
+            BTCSymbolInfo.SYMBOL_NAME: df2['close']/Price_Digits
         }).dropna()
         global local_data
         local_data = pd.concat([local_data,dataFrame])
@@ -229,8 +227,8 @@ def hanleHistoryData(btc_data, eth_data):
 
     # 读取数据
     historical =  pd.DataFrame({
-            'ETH': df2['close'],
-            'BTC': df1['close']
+            ETHSymbolInfo.SYMBOL_NAME: df2['close'],
+            BTCSymbolInfo.SYMBOL_NAME: df1['close']
         }).dropna()
     
     # trader.initialize_history(historical)
@@ -405,13 +403,13 @@ async def main() -> None:
                 print(symbol.symbolId)
                 XSymbolId = symbol.symbolId
                 symbol_ids.append(symbol.symbolId)
-                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,3)
+                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,ETHSymbolInfo.SYMBOL_LEVERAGE)
             elif symbol.symbolName == BTCSymbolInfo.SYMBOL_NAME:
                 print("find btc symbol")
                 print(symbol.symbolId)
                 YSymbolId = symbol.symbolId
                 symbol_ids.append(symbol.symbolId)
-                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,25)
+                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,BTCSymbolInfo.SYMBOL_LEVERAGE)
 
         print(symbol_ids)
         algo.service = PairsTradeSignalService(data=None,symbols=symbol_infos,window=RunParams.Window,settings={'entry_z':algo.entry_z,'exit_z':algo.exit_z})

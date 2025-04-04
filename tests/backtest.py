@@ -8,7 +8,7 @@ import gc
 from mockTrading import MockTradingSingle,MockTrading
 import sys
 sys.path.append('../src')
-from TradingSignalService import SymbolInfo,TickData,PairsTradeSignalService
+from TradingSignalService import SymbolInfo,TickData, PairsTradeSignalService, ETHSymbolInfo, BTCSymbolInfo
 from MarginService import Position,MarginManager
 
 def log(msg):
@@ -17,15 +17,8 @@ def log(msg):
     with open('tradinglogP0.log', 'a') as f:
         f.write(f"{datetime.datetime.now()}: {msg}\n")
 
-def load_trendbars_data(symbol = "ETH"):
-    # 读取{symbol}_trendbars.csv文件
-    filename = f"{symbol}_trendbars.csv"
-    data = pd.read_csv(filename)
-    print(f"读取 {len(data)} 条记录 <- ETH_trendbars.csv")
-    return data
 
-
-market_prices = {'ETHUSD':0,'BTCUSD':0}
+market_prices = {ETHSymbolInfo.SYMBOL_NAME:0,BTCSymbolInfo.SYMBOL_NAME:0}
 
 def closeOrder():
     # print("平仓")
@@ -81,19 +74,20 @@ class PairsTradingBacktester:
         self.positions = []
         self.balance = initial_cash
         self.report = None
-        self.service = PairsTradeSignalService(data=None,symbols={'BTCUSD':SymbolInfo('BTCUSD','BTCUSD',25),'ETHUSD':SymbolInfo('ETHUSD','ETHUSD',3)},window=window,settings={'entry_z':self.entry_z,'exit_z':self.exit_z})
+        self.service = PairsTradeSignalService(data=None,symbols={BTCSymbolInfo.SYMBOL_NAME:SymbolInfo(BTCSymbolInfo.SYMBOL_NAME,BTCSymbolInfo.SYMBOL_NAME,BTCSymbolInfo.SYMBOL_LEVERAGE),
+                                                                  ETHSymbolInfo.SYMBOL_NAME:SymbolInfo(ETHSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_LEVERAGE)},window=window,settings={'entry_z':self.entry_z,'exit_z':self.exit_z})
         self.margin_manager = MarginManager(total_balance=initial_cash)
 
     def run_backtest_2(self,df, window=1500):
-        # self.service.data = df.rename(columns={'BTC':'BTCUSD','ETH':'ETHUSD'})
+        # self.service.data = df.rename(columns={BTCSymbolInfo.SYMBOL_NAME:BTCSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_NAME:ETHSymbolInfo.SYMBOL_NAME})
         self._backtest_with_df(df, window)
 
     def run_backtest(self,btc_data, eth_data, window=1500):
 
         # 合并数据
         self.data = pd.DataFrame({
-            'BTC': btc_data,
-            'ETH': eth_data
+            BTCSymbolInfo.SYMBOL_NAME: btc_data,
+            ETHSymbolInfo.SYMBOL_NAME: eth_data
         }).dropna()
         self._backtest_with_df(self.data, window)
     
@@ -111,9 +105,9 @@ class PairsTradingBacktester:
                 continue
             else:
                 if i+1 < len(self.data):
-                    btc_price = self.data['BTC'].iloc[i+1]
-                    etc_price = self.data['ETH'].iloc[i+1]
-                    self._update_data(self.data['BTC'].iloc[i+1], self.data['ETH'].iloc[i+1])
+                    btc_price = self.data[BTCSymbolInfo.SYMBOL_NAME].iloc[i+1]
+                    etc_price = self.data[ETHSymbolInfo.SYMBOL_NAME].iloc[i+1]
+                    self._update_data(self.data[BTCSymbolInfo.SYMBOL_NAME].iloc[i+1], self.data[ETHSymbolInfo.SYMBOL_NAME].iloc[i+1])
                     self._checkUpdateSignal(reset_model=True,btc_price=btc_price,eth_price=etc_price)
                 else:
                     break
@@ -131,14 +125,14 @@ class PairsTradingBacktester:
         print("重新加载数据")
         """重新加载数据"""
         self.data = pd.DataFrame({
-            'BTC': btc_data['close'],
-            'ETH': eth_data['close']
+            BTCSymbolInfo.SYMBOL_NAME: btc_data['close'],
+            ETHSymbolInfo.SYMBOL_NAME: eth_data['close']
         }).dropna()
         self.current_data = self.data
         print(f"重新加载数据:BTC:{btc_data['close']},ETH:{eth_data['close']},datalen:{len(self.current_data)}")
         self.service.data = pd.DataFrame({
-            'BTCUSD': btc_data['close'],
-            'ETHUSD': eth_data['close']
+            BTCSymbolInfo.SYMBOL_NAME: btc_data['close'],
+            ETHSymbolInfo.SYMBOL_NAME: eth_data['close']
         }).dropna()
         self.service.update_data(None)
 
@@ -153,26 +147,26 @@ class PairsTradingBacktester:
             # self.current_data = self.current_data.drop(index=self.current_data.index[0])
             self.current_data = self.current_data.iloc[1:].reset_index(drop=True)
         self.current_data.loc[len(self.current_data)] = {
-            'BTC': btc_price,
-            'ETH': eth_price,
+            BTCSymbolInfo.SYMBOL_NAME: btc_price,
+            ETHSymbolInfo.SYMBOL_NAME: eth_price,
         }
         self.data.loc[len(self.data)] = {
-            'BTC': btc_price,
-            'ETH': eth_price,
+            BTCSymbolInfo.SYMBOL_NAME: btc_price,
+            ETHSymbolInfo.SYMBOL_NAME: eth_price,
         }
         self.btc_price = btc_price
         self.eth_price = eth_price
-        market_prices['ETHUSD'] = self.eth_price
-        market_prices['BTCUSD'] = self.btc_price
+        market_prices[ETHSymbolInfo.SYMBOL_NAME] = self.eth_price
+        market_prices[BTCSymbolInfo.SYMBOL_NAME] = self.btc_price
 
-        self.service.update_data({'BTCUSD':TickData('BTCUSD',datetime.datetime.now().timestamp(),btc_price),'ETHUSD':TickData('ETHUSD',datetime.datetime.now().timestamp(),eth_price)})
+        self.service.update_data({BTCSymbolInfo.SYMBOL_NAME:TickData(BTCSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),btc_price),ETHSymbolInfo.SYMBOL_NAME:TickData(ETHSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),eth_price)})
     
     def _write_all_data_to_file(self):
         self.data.to_csv('algo_allData.csv')
 
     def _checkUpdateSignal(self,reset_model = False,btc_price = None, eth_price = None):
-        self.margin_manager.update_price('BTCUSD', btc_price, btc_price)
-        self.margin_manager.update_price('ETHUSD', eth_price, eth_price)
+        self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME, btc_price, btc_price)
+        self.margin_manager.update_price(ETHSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
         # TODO: check why 'cash' < 0
         if len(self.current_data) < 30 or self.margin_manager.get_available_margin() <= 0 or btc_price is None or eth_price is None:  # 最小数据量要求
             print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},btc_price:{btc_price},eth_price:{eth_price}")
@@ -201,8 +195,8 @@ class PairsTradingBacktester:
     def _generate_signal(self,btc_price = None, eth_price = None):
         time = datetime.datetime.now().timestamp()
         ticks:dict[str,TickData] = {
-            'BTCUSD':TickData('BTCUSD',time,btc_price),
-            'ETHUSD':TickData('ETHUSD',time,eth_price)
+            BTCSymbolInfo.SYMBOL_NAME:TickData(BTCSymbolInfo.SYMBOL_NAME,time,btc_price),
+            ETHSymbolInfo.SYMBOL_NAME:TickData(ETHSymbolInfo.SYMBOL_NAME,time,eth_price)
         }
         return self.service.generate_signal(ticks,self.service.hedge_ratio,self.service.zscore_params)
     
@@ -224,8 +218,8 @@ class PairsTradingBacktester:
         """执行交易"""
         btc_price = _btc_price
         eth_price = _eth_price
-        self.margin_manager.update_price('BTCUSD', btc_price, btc_price)
-        self.margin_manager.update_price('ETHUSD', eth_price, eth_price)
+        self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME, btc_price, btc_price)
+        self.margin_manager.update_price(ETHSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
         
         # 平仓逻辑
         if signal == 0 and (self.portfolio['BTC_position'] != 0 or self.portfolio['ETH_position'] != 0):
@@ -246,8 +240,8 @@ class PairsTradingBacktester:
             # eth_size = position_value / eth_price
             btc_size = 0.01
             eth_size = btc_size / self.service.hedge_ratio #self.hedge_ratio
-            es_margin1 = self.margin_manager.calculate_required_margin('BTCUSD', btc_size, 1 if signal == 1 else -1, 25)
-            es_margin2 = self.margin_manager.calculate_required_margin('ETHUSD', eth_size, 1 if signal == 1 else -1, 3)
+            es_margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, 25)
+            es_margin2 = self.margin_manager.calculate_required_margin(ETHSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, 3)
             times = round(position_value / (es_margin1 + es_margin2),0)
             btc_size = btc_size * times
             eth_size = eth_size * times
@@ -271,8 +265,8 @@ class PairsTradingBacktester:
 
             self.createOrder += 1
 
-            margin1 = self.margin_manager.calculate_required_margin('BTCUSD', btc_size, 1 if signal == 1 else -1, 25)
-            margin2 = self.margin_manager.calculate_required_margin('ETHUSD', eth_size, 1 if signal == 1 else -1, 3)
+            margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, 25)
+            margin2 = self.margin_manager.calculate_required_margin(ETHSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, 3)
             # if margin1 + margin2 + self.used_margin > (self.margin_manager.get_available_margin()):
             #     print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             #     return
@@ -300,8 +294,8 @@ class PairsTradingBacktester:
         # self.portfolio['cash'] -= MockTradingSingle.shared.calculate_reqired_margin(1, btc_size, btc_price)
         self.portfolio['BTC_position'] += btc_size
 
-        self.margin_manager.add_position('ETHUSD', abs(eth_size), 1 if eth_size > 0 else -1, eth_price, 3)
-        self.margin_manager.add_position('BTCUSD', abs(btc_size), 1 if btc_size > 0 else -1, btc_price, 25)
+        self.margin_manager.add_position(ETHSymbolInfo.SYMBOL_NAME, abs(eth_size), 1 if eth_size > 0 else -1, eth_price, 3)
+        self.margin_manager.add_position(BTCSymbolInfo.SYMBOL_NAME, abs(btc_size), 1 if btc_size > 0 else -1, btc_price, 25)
         
         self.createOrderExcute(eth_size,btc_size,eth_price,btc_price)
 
@@ -442,8 +436,8 @@ if __name__ == "__main__":
     
     # read trader_allData.csv
     all_data = pd.read_csv('data0329.csv')
-    all_data[['BTC']] = all_data[['BTC']] / 100000
-    all_data[['ETH']] = all_data[['ETH']] / 100000
+    all_data[[BTCSymbolInfo.SYMBOL_NAME]] = all_data[[BTCSymbolInfo.SYMBOL_NAME]] / 100000
+    all_data[[ETHSymbolInfo.SYMBOL_NAME]] = all_data[[ETHSymbolInfo.SYMBOL_NAME]] / 100000
 
     # use first 1000 records
 # 策略总收益: 0.32%
@@ -482,11 +476,6 @@ if __name__ == "__main__":
     backtester = PairsTradingBacktester(entry_z=1.5, exit_z=0.8,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
     backtester.run_backtest_2(all_data, window=180)
 
-    # 加载数据（示例数据）
-    # btc_prices = load_trendbars_data(symbol="BTC")
-    # eth_prices = load_trendbars_data(symbol="ETH")
-    # df1_aligned,df2_aligned = _cleanData_(btc_prices,eth_prices)
-    # backtester.run_backtest(df1_aligned, df2_aligned, window=1500)
     
     print(f"建仓次数:{backtester.createOrder}")
     print(f"平仓次数:{backtester.closeOrder}")

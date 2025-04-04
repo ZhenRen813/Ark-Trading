@@ -3,6 +3,14 @@ from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
 import numpy as np
 
+class ETHSymbolInfo:
+    SYMBOL_NAME = "US 500"
+    SYMBOL_LEVERAGE = 20
+
+class BTCSymbolInfo:
+    SYMBOL_NAME = "US TECH 100"
+    SYMBOL_LEVERAGE = 20
+
 class SymbolInfo:
     def __init__(self, symbolId, symbolName, leverage):
         self.symbolId = symbolId
@@ -66,10 +74,6 @@ class PairsTradeSignalService(BaseTradeSignalService):
         if ticks is not None:
             super().update_data(ticks)
 
-        # self.data.loc[len(self.data)] = {
-        #     'BTC': ticks['BTCUSD'].price,
-        #     'ETH': ticks['ETHUSD'].price,
-        # }
         self._calibrate_model()
     
     def _smooth_spread(self,spread_series, alpha=0.1):
@@ -95,6 +99,8 @@ class PairsTradeSignalService(BaseTradeSignalService):
         if len(self.symbol_names) != 2:
             ValueError("Only two symbols are supported")
 
+        print(f"sysmbol_names: {self.symbol_names}")
+        print(handle_data.head())
         # 平滑价差序列
         x_smooth = self._smooth_spread(handle_data[self.symbol_names[0]],alpha)
         y_smooth = self._smooth_spread(handle_data[self.symbol_names[1]],alpha)
