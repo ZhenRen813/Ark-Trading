@@ -417,7 +417,7 @@ async def main() -> None:
         trade_req = ProtoOATraderReq(ctidTraderAccountId=ACCOUNT_ID)
         trade_res = await client.send_and_wait_response(trade_req, ProtoOATraderRes)
         balance = trade_res.trader.balance
-        print(f"manager_bouns:{trade_res.trader.managerBonus}")
+        print(f"balance:{trade_res.trader.balance}")
 
         algo._update_balance(balance)
         await async_checkUsedMargin()
