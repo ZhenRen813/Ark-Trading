@@ -68,11 +68,11 @@ class AccountInfo:
     ACCOUNT_ID = ACCOUNT.USD
     CLIENT_ID = "13628_lbJ2ix1H7UFg5W8ar2eeoFOL0xJUR88G2BLhdvJqnCWtytEzSn"
     CLIENT_SECRET = "hpGJohkYLBBDuzd1nYkb6YPuZD74hE45yGTu9U0nNwJxwlurQu"
-    ACCESS = "vLWbVxkdpbsjyCcsbURRNRk491IqOgzqQfr2dOcN4bA"
+    ACCESS = "Xjfns1lfehTNSh3YYIAEapmO_P9r2FREBFsDhQUdDQ4"
 
 class RunParams:
     Enter_Z = 1.8
-    Exit_Z = 0.6
+    Exit_Z = 0.7
     Window = 180
 
 HOST = EndPoints.PROTOBUF_DEMO_HOST
@@ -439,6 +439,8 @@ async def main() -> None:
                 client.send_and_wait_response(sub_spot_req, ProtoOASubscribeSpotsRes)
             )
             tasks.append(task)
+        else:
+            return
 
         print("subscribed to spots")
 

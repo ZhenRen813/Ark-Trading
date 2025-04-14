@@ -94,7 +94,7 @@ class PairsTradeSignalService(BaseTradeSignalService):
         print(f"当前数据量: {len(self.data)}")
 
         handle_data = self.data.copy()
-        alpha = 0.5
+        alpha = 0.3
 
         if len(self.symbol_names) != 2:
             ValueError("Only two symbols are supported")
