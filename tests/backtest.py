@@ -17,6 +17,10 @@ def log(msg):
     with open('tradinglogP0.log', 'a') as f:
         f.write(f"{datetime.datetime.now()}: {msg}\n")
 
+class MarginParams:
+    MIN_POSITION_SIZE = 1
+    MAX_POSITION_Value = 3000
+
 
 market_prices = {ETHSymbolInfo.SYMBOL_NAME:0,BTCSymbolInfo.SYMBOL_NAME:0}
 
@@ -233,12 +237,12 @@ class PairsTradingBacktester:
                 print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
                 return
             # 计算头寸规模（保持美元中性）
-            position_value = 700#self.portfolio['cash'] / 2 #* 36
+            position_value = MarginParams.MAX_POSITION_Value#self.portfolio['cash'] / 2 #* 36
             print(f"position_value:{position_value}")
             # 仓位精度为两个小数点，价格精度为三个小数点
             # btc_size = position_value / btc_price
             # eth_size = position_value / eth_price
-            btc_size = 0.01
+            btc_size = MarginParams.MIN_POSITION_SIZE
             eth_size = btc_size / self.service.hedge_ratio #self.hedge_ratio
             es_margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, 25)
             es_margin2 = self.margin_manager.calculate_required_margin(ETHSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, 3)
@@ -435,9 +439,13 @@ if __name__ == "__main__":
     # 初始化回测器
     
     # read trader_allData.csv
-    all_data = pd.read_csv('data0329.csv')
-    all_data[[BTCSymbolInfo.SYMBOL_NAME]] = all_data[[BTCSymbolInfo.SYMBOL_NAME]] / 100000
-    all_data[[ETHSymbolInfo.SYMBOL_NAME]] = all_data[[ETHSymbolInfo.SYMBOL_NAME]] / 100000
+    # all_data = pd.read_csv('data0410.csv')
+    all_data = pd.read_csv('data0411.csv')
+    # data3 = pd.read_csv('data0412.csv')
+    # all_data = data1 + data2 + data3
+    # all_data = pd.concat([data1, data2, data3], ignore_index=False)
+    all_data[[BTCSymbolInfo.SYMBOL_NAME]] = all_data[[BTCSymbolInfo.SYMBOL_NAME]]
+    all_data[[ETHSymbolInfo.SYMBOL_NAME]] = all_data[[ETHSymbolInfo.SYMBOL_NAME]]
 
     # use first 1000 records
 # 策略总收益: 0.32%
@@ -446,7 +454,7 @@ if __name__ == "__main__":
 # 总交易次数: 18
 # 建仓次数:12
 # 平仓次数:6
-    all_data = all_data.tail(1000)
+    #all_data = all_data.tail(1000)
 
     entry_z_arr = [1.7,1.8,1.9,2.0]
     windows = [160,170,180,190,200,300]
@@ -472,8 +480,8 @@ if __name__ == "__main__":
             # del backtester
             # del MockTradingSingle.shared
             # gc.collect()
-    MockTradingSingle.shared = MockTrading(balance=1500,leverage=100)
-    backtester = PairsTradingBacktester(entry_z=1.5, exit_z=0.8,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
+    MockTradingSingle.shared = MockTrading(balance=1000,leverage=100)
+    backtester = PairsTradingBacktester(entry_z=1.8, exit_z=0.7,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
     backtester.run_backtest_2(all_data, window=180)
 
     
