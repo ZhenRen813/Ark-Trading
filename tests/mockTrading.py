@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../src')
 from MarginService import MarginManager
-from TradingSignalService import SymbolInfo,TickData, PairsTradeSignalService, XSymbolInfo, BTCSymbolInfo
+from TradingSignalService import SymbolInfo,TickData, PairsTradeSignalService, XSymbolInfo, YSymbolInfo
 
 class Position:
     def __init__(self, symbol, size, direction, price, used_margin, leverage = 1):
@@ -34,7 +34,7 @@ class MockTrading:
             return
         print("平仓，market_price:",market_price,"diff:",self.avaliable_margin + self.used_margin - self.balance)
         self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME,market_price[XSymbolInfo.SYMBOL_NAME],market_price[XSymbolInfo.SYMBOL_NAME])
-        self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME,market_price[BTCSymbolInfo.SYMBOL_NAME],market_price[BTCSymbolInfo.SYMBOL_NAME])
+        self.margin_manager.update_price(YSymbolInfo.SYMBOL_NAME,market_price[YSymbolInfo.SYMBOL_NAME],market_price[YSymbolInfo.SYMBOL_NAME])
         all_margin = 0
         # for pos in self.position:
         #     print(f"平仓:{pos.symbol} 数量:{pos.size} 价格:{market_price[pos.symbol]}")
@@ -67,20 +67,20 @@ class MockTrading:
         self.openCount += 1
         # print(f"开仓:ETH:{eth_size} BTC:{btc_size} ETH价格:{eth_price} BTC价格:{btc_price}")
         self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME,eth_price,eth_price)
-        self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME,btc_price,btc_price)
+        self.margin_manager.update_price(YSymbolInfo.SYMBOL_NAME,btc_price,btc_price)
 
         eth_required_margin = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if eth_size > 0 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
         self.position.append(Position(XSymbolInfo.SYMBOL_NAME,eth_size,1 if eth_size > 0 else -1,eth_price,eth_required_margin, XSymbolInfo.SYMBOL_LEVERAGE))
         self.used_margin += eth_required_margin
         self.avaliable_margin -= eth_required_margin
 
-        btc_required_margin = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if btc_size > 0 else -1, BTCSymbolInfo.SYMBOL_LEVERAGE)
-        self.position.append(Position(BTCSymbolInfo.SYMBOL_NAME,btc_size,1 if btc_size > 0 else -1,btc_price,btc_required_margin, BTCSymbolInfo.SYMBOL_LEVERAGE))
+        btc_required_margin = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, btc_size, 1 if btc_size > 0 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
+        self.position.append(Position(YSymbolInfo.SYMBOL_NAME,btc_size,1 if btc_size > 0 else -1,btc_price,btc_required_margin, YSymbolInfo.SYMBOL_LEVERAGE))
         self.used_margin += btc_required_margin
         self.avaliable_margin -= btc_required_margin
 
         self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME,eth_size,1 if eth_size > 0 else -1,eth_price,XSymbolInfo.SYMBOL_LEVERAGE)
-        self.margin_manager.add_position(BTCSymbolInfo.SYMBOL_NAME,btc_size,1 if btc_size > 0 else -1,btc_price,BTCSymbolInfo.SYMBOL_LEVERAGE)
+        self.margin_manager.add_position(YSymbolInfo.SYMBOL_NAME,btc_size,1 if btc_size > 0 else -1,btc_price,YSymbolInfo.SYMBOL_LEVERAGE)
         # self.symbol = symbol
         # self.size = size
         # self.direction = direction
