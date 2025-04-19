@@ -28,15 +28,15 @@ def closeOrder():
     # print("平仓")
     MockTradingSingle.shared._closeOredr(market_prices)
 
-def createOrder(eth_size,Y_size,eth_price,Y_price):
-    # print(f"开仓:ETH:{eth_size} Y:{Y_size} ETH价格:{eth_price} Y价格:{Y_price}")
-    MockTradingSingle.shared._createOrder(eth_size,Y_size,eth_price,Y_price)
+def createOrder(X_size,Y_size,X_price,Y_price):
+    # print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
+    MockTradingSingle.shared._createOrder(X_size,Y_size,X_price,Y_price)
 
 # def closeOrder():
 #     print("平仓")
 
-# def createOrder(eth_size,Y_size,eth_price,Y_price):
-#     print(f"开仓:ETH:{eth_size} Y:{Y_size} ETH价格:{eth_price} Y价格:{Y_price}")
+# def createOrder(X_size,Y_size,X_price,Y_price):
+#     print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
 
 
 class PairsTradingBacktester:
@@ -47,7 +47,7 @@ class PairsTradingBacktester:
     def __init__(self,entry_z=1.5, exit_z=0.5, window = 180, initial_cash=1500, closeOrderExcute = None ,createOrderExcute = None):
         """
         参数:
-        Y_data, eth_data - 包含时间戳和收盘价的数据框
+        Y_data, X_data - 包含时间戳和收盘价的数据框
         initial_window - 初始训练窗口大小
         initial_cash - 初始资金
         """
@@ -60,7 +60,7 @@ class PairsTradingBacktester:
         self.portfolio = {
             'cash': initial_cash,
             'Y_position': 0,
-            'ETH_position': 0,
+            'X_position': 0,
             'total_value': initial_cash,
             'history': []
         }
@@ -70,7 +70,7 @@ class PairsTradingBacktester:
         self.closeOrderExcute = closeOrderExcute
         self.createOrderExcute = createOrderExcute
         self.Y_price = None
-        self.eth_price = None
+        self.X_price = None
         self.window = window
         self.alreadyOpen = False
         self.used_margin = 0
@@ -86,12 +86,12 @@ class PairsTradingBacktester:
         # self.service.data = df.rename(columns={YSymbolInfo.SYMBOL_NAME:YSymbolInfo.SYMBOL_NAME,XSymbolInfo.SYMBOL_NAME:XSymbolInfo.SYMBOL_NAME})
         self._backtest_with_df(df, window)
 
-    def run_backtest(self,Y_data, eth_data, window=1500):
+    def run_backtest(self,Y_data, X_data, window=1500):
 
         # 合并数据
         self.data = pd.DataFrame({
             YSymbolInfo.SYMBOL_NAME: Y_data,
-            XSymbolInfo.SYMBOL_NAME: eth_data
+            XSymbolInfo.SYMBOL_NAME: X_data
         }).dropna()
         self._backtest_with_df(self.data, window)
     
@@ -112,7 +112,7 @@ class PairsTradingBacktester:
                     Y_price = self.data[YSymbolInfo.SYMBOL_NAME].iloc[i+1]
                     etc_price = self.data[XSymbolInfo.SYMBOL_NAME].iloc[i+1]
                     self._update_data(self.data[YSymbolInfo.SYMBOL_NAME].iloc[i+1], self.data[XSymbolInfo.SYMBOL_NAME].iloc[i+1])
-                    self._checkUpdateSignal(reset_model=True,Y_price=Y_price,eth_price=etc_price)
+                    self._checkUpdateSignal(reset_model=True,Y_price=Y_price,X_price=etc_price)
                 else:
                     break
         self._generate_report()
@@ -125,18 +125,18 @@ class PairsTradingBacktester:
         self.balance = cash/100.0 * 100
         self.margin_manager.total_balance = cash/100.0 * 100
 
-    def _reload_data(self, Y_data, eth_data):
+    def _reload_data(self, Y_data, X_data):
         print("重新加载数据")
         """重新加载数据"""
         self.data = pd.DataFrame({
             YSymbolInfo.SYMBOL_NAME: Y_data['close'],
-            XSymbolInfo.SYMBOL_NAME: eth_data['close']
+            XSymbolInfo.SYMBOL_NAME: X_data['close']
         }).dropna()
         self.current_data = self.data
-        print(f"重新加载数据:Y:{Y_data['close']},ETH:{eth_data['close']},datalen:{len(self.current_data)}")
+        print(f"重新加载数据:Y:{Y_data['close']},X:{X_data['close']},datalen:{len(self.current_data)}")
         self.service.data = pd.DataFrame({
             YSymbolInfo.SYMBOL_NAME: Y_data['close'],
-            XSymbolInfo.SYMBOL_NAME: eth_data['close']
+            XSymbolInfo.SYMBOL_NAME: X_data['close']
         }).dropna()
         self.service.update_data(None)
 
@@ -144,50 +144,50 @@ class PairsTradingBacktester:
         self.used_margin = margin
         # self.portfolio['cash'] = self.balance - self.used_margin
 
-    def _update_data(self, Y_price, eth_price):
+    def _update_data(self, Y_price, X_price):
         """更新数据"""
-        # print(f"更新数据:Y:{Y_price},ETH:{eth_price},datalen:{len(self.current_data)}")
+        # print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
         if len(self.current_data) >= self.window:
             # self.current_data = self.current_data.drop(index=self.current_data.index[0])
             self.current_data = self.current_data.iloc[1:].reset_index(drop=True)
         self.current_data.loc[len(self.current_data)] = {
             YSymbolInfo.SYMBOL_NAME: Y_price,
-            XSymbolInfo.SYMBOL_NAME: eth_price,
+            XSymbolInfo.SYMBOL_NAME: X_price,
         }
         self.data.loc[len(self.data)] = {
             YSymbolInfo.SYMBOL_NAME: Y_price,
-            XSymbolInfo.SYMBOL_NAME: eth_price,
+            XSymbolInfo.SYMBOL_NAME: X_price,
         }
         self.Y_price = Y_price
-        self.eth_price = eth_price
-        market_prices[XSymbolInfo.SYMBOL_NAME] = self.eth_price
+        self.X_price = X_price
+        market_prices[XSymbolInfo.SYMBOL_NAME] = self.X_price
         market_prices[YSymbolInfo.SYMBOL_NAME] = self.Y_price
 
-        self.service.update_data({YSymbolInfo.SYMBOL_NAME:TickData(YSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),Y_price),XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),eth_price)})
+        self.service.update_data({YSymbolInfo.SYMBOL_NAME:TickData(YSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),Y_price),XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),X_price)})
     
     def _write_all_data_to_file(self):
         self.data.to_csv('algo_allData.csv')
 
-    def _checkUpdateSignal(self,reset_model = False,Y_price = None, eth_price = None):
+    def _checkUpdateSignal(self,reset_model = False,Y_price = None, X_price = None):
         self.margin_manager.update_price(YSymbolInfo.SYMBOL_NAME, Y_price, Y_price)
-        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
+        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, X_price, X_price)
         # TODO: check why 'cash' < 0
-        if len(self.current_data) < 30 or self.margin_manager.get_available_margin() <= 0 or Y_price is None or eth_price is None:  # 最小数据量要求
-            print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},Y_price:{Y_price},eth_price:{eth_price}")
+        if len(self.current_data) < 30 or self.margin_manager.get_available_margin() <= 0 or Y_price is None or X_price is None:  # 最小数据量要求
+            print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},Y_price:{Y_price},X_price:{X_price}")
             return None
 
         # print(f">>>>>>>>>>>>>>>>>>>>>>>>>cash:{self.portfolio['cash']},balance:{self.balance},used_margin:{self.used_margin},hedge_ratio:{self.hedge_ratio},zsocre_params:{self.zscore_params}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         # 生成交易信号
-        signal = self._generate_signal(Y_price, eth_price)
+        signal = self._generate_signal(Y_price, X_price)
         
-        self._execute_trade(signal,Y_price, eth_price)
+        self._execute_trade(signal,Y_price, X_price)
         
         # 更新投资组合价值
-        self._update_portfolio(Y_price, eth_price)
+        self._update_portfolio(Y_price, X_price)
         
         # 记录每日状态
-        self._record_state(Y_price, eth_price)
+        self._record_state(Y_price, X_price)
 
         return signal
     
@@ -196,38 +196,38 @@ class PairsTradingBacktester:
         ewma = pd.Series(spread_series).ewm(alpha=alpha).mean()
         return ewma
 
-    def _generate_signal(self,Y_price = None, eth_price = None):
+    def _generate_signal(self,Y_price = None, X_price = None):
         time = datetime.datetime.now().timestamp()
         ticks:dict[str,TickData] = {
             YSymbolInfo.SYMBOL_NAME:TickData(YSymbolInfo.SYMBOL_NAME,time,Y_price),
-            XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,time,eth_price)
+            XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,time,X_price)
         }
         return self.service.generate_signal(ticks,self.service.hedge_ratio,self.service.zscore_params)
     
     def _last_Date(self):
         return self.current_data.index[-1]
 
-    def _execute_trade(self, signal,_Y_price = None, _eth_price = None):
+    def _execute_trade(self, signal,_Y_price = None, _X_price = None):
         """执行交易（增加空值保护）"""
         # 检查价格有效性
         try:
             Y_price = float(_Y_price)
-            eth_price = float(_eth_price)
+            X_price = float(_X_price)
         except (TypeError, ValueError):
             return
         
         # 跳过无效价格
-        if np.isnan(_Y_price) or np.isnan(_eth_price):
+        if np.isnan(_Y_price) or np.isnan(_X_price):
             return
         """执行交易"""
         Y_price = _Y_price
-        eth_price = _eth_price
+        X_price = _X_price
         self.margin_manager.update_price(YSymbolInfo.SYMBOL_NAME, Y_price, Y_price)
-        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
+        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, X_price, X_price)
         
         # 平仓逻辑
-        if signal == 0 and (self.portfolio['Y_position'] != 0 or self.portfolio['ETH_position'] != 0):
-            self._close_positions(Y_price, eth_price)
+        if signal == 0 and (self.portfolio['Y_position'] != 0 or self.portfolio['X_position'] != 0):
+            self._close_positions(Y_price, X_price)
         
         # 开仓逻辑
         if signal in [-1, 1]:
@@ -241,61 +241,61 @@ class PairsTradingBacktester:
             print(f"position_value:{position_value}")
             # 仓位精度为两个小数点，价格精度为三个小数点
             # Y_size = position_value / Y_price
-            # eth_size = position_value / eth_price
+            # X_size = position_value / X_price
             if abs(self.service.hedge_ratio) <= 1:
                 Y_size = MarginParams.MIN_POSITION_SIZE
-                eth_size = Y_size / abs(self.service.hedge_ratio) #self.hedge_ratio
+                X_size = Y_size / abs(self.service.hedge_ratio) #self.hedge_ratio
             else:
-                eth_size = MarginParams.MIN_POSITION_SIZE
-                Y_size = eth_size * abs(self.service.hedge_ratio)
+                X_size = MarginParams.MIN_POSITION_SIZE
+                Y_size = X_size * abs(self.service.hedge_ratio)
             es_margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
-            es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
+            es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
             print("es_margin",es_margin1 + es_margin2)
             times = round(position_value / (es_margin1 + es_margin2),0)
             Y_size = Y_size * times
-            eth_size = eth_size * times
-            # print("对冲比率",self.service.hedge_ratio,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",Y_size,eth_size)
+            X_size = X_size * times
+            # print("对冲比率",self.service.hedge_ratio,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",Y_size,X_size)
             # times = 0
 
-            # while (abs(Y_size) * abs(Y_price)) + (abs(eth_size) * abs(eth_price)) * times < position_value:
+            # while (abs(Y_size) * abs(Y_price)) + (abs(X_size) * abs(X_price)) * times < position_value:
             #     times += 1
             # if times == 0:
-            #     print("不够钱==================================",Y_price,eth_price)
+            #     print("不够钱==================================",Y_price,X_price)
             #     return
             # Y_size = Y_size * times
-            # eth_size = eth_size * times
+            # X_size = X_size * times
 
-            if Y_size < MarginParams.MIN_POSITION_SIZE or eth_size < MarginParams.MIN_POSITION_SIZE:
-                log(f"头寸过小{Y_size},{eth_size},取消交易,position_value:{position_value},time:{datetime.datetime.now()},Y_price:{Y_price},eth_price:{eth_price}")
+            if Y_size < MarginParams.MIN_POSITION_SIZE or X_size < MarginParams.MIN_POSITION_SIZE:
+                log(f"头寸过小{Y_size},{X_size},取消交易,position_value:{position_value},time:{datetime.datetime.now()},Y_price:{Y_price},X_price:{X_price}")
                 return
             
             Y_size = round(Y_size, 2)
-            eth_size = round(eth_size, 2)
+            X_size = round(X_size, 2)
 
             self.createOrder += 1
 
             margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
-            margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
+            margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
             # if margin1 + margin2 + self.used_margin > (self.margin_manager.get_available_margin()):
             #     print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             #     return
             
             if signal == 1:  # 做多价差
-                self._open_position(eth_size, -Y_size, eth_price, Y_price)
+                self._open_position(X_size, -Y_size, X_price, Y_price)
             else:  # 做空价差
-                self._open_position(-eth_size, Y_size, eth_price, Y_price)
+                self._open_position(-X_size, Y_size, X_price, Y_price)
 
             
             self._update_used_margin(margin1 + margin2)
             self.alreadyOpen = True
 
-    def _open_position(self, eth_size, Y_size, eth_price, Y_price):
+    def _open_position(self, X_size, Y_size, X_price, Y_price):
         """开仓操作"""
-        # ETH交易
-        eth_cost = eth_size * eth_price
-        self.portfolio['cash'] -= eth_cost
-        # self.portfolio['cash'] -= MockTradingSingle.shared.calculate_reqired_margin(1, eth_size, eth_price)
-        self.portfolio['ETH_position'] += eth_size
+        # X交易
+        X_cost = X_size * X_price
+        self.portfolio['cash'] -= X_cost
+        # self.portfolio['cash'] -= MockTradingSingle.shared.calculate_reqired_margin(1, X_size, X_price)
+        self.portfolio['X_position'] += X_size
         
         # Y交易
         Y_cost = Y_size * Y_price
@@ -303,35 +303,35 @@ class PairsTradingBacktester:
         # self.portfolio['cash'] -= MockTradingSingle.shared.calculate_reqired_margin(1, Y_size, Y_price)
         self.portfolio['Y_position'] += Y_size
 
-        self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME, abs(eth_size), 1 if eth_size > 0 else -1, eth_price, XSymbolInfo.SYMBOL_LEVERAGE)
+        self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME, abs(X_size), 1 if X_size > 0 else -1, X_price, XSymbolInfo.SYMBOL_LEVERAGE)
         self.margin_manager.add_position(YSymbolInfo.SYMBOL_NAME, abs(Y_size), 1 if Y_size > 0 else -1, Y_price, YSymbolInfo.SYMBOL_LEVERAGE)
         
-        self.createOrderExcute(eth_size,Y_size,eth_price,Y_price)
+        self.createOrderExcute(X_size,Y_size,X_price,Y_price)
 
         # 记录交易日志到本地
-        if eth_size != 0 and Y_size != 0:
-            log(f"time:{datetime.datetime.now} OPEN: ETH_Size:{eth_size} Y_Size:{Y_size} ETH价格:{eth_price} Y价格:{Y_price}")
+        if X_size != 0 and Y_size != 0:
+            log(f"time:{datetime.datetime.now} OPEN: X_Size:{X_size} Y_Size:{Y_size} X价格:{X_price} Y价格:{Y_price}")
 
         self.trade_log.append({
             'date': self._last_Date(),
             'action': 'OPEN',
-            'ETH_size': eth_size,
+            'X_size': X_size,
             'Y_size': Y_size,
-            'ETH_price': eth_price,
+            'X_price': X_price,
             'Y_price': Y_price
         })
 
-    def _close_positions(self, Y_price, eth_price):
-        if Y_price is None or eth_price is None:
+    def _close_positions(self, Y_price, X_price):
+        if Y_price is None or X_price is None:
             log(f"价格为空,取消平仓")
             return
         """平仓操作"""
-        # 平仓ETH
-        eth_size = self.portfolio['ETH_position']
-        eth_value = eth_size * eth_price
-        # self.portfolio['cash'] += eth_value
-        # self.portfolio['cash'] += MockTradingSingle.shared.calculate_released_margin(self.leverage, self.portfolio['ETH_position'], eth_price)
-        self.portfolio['ETH_position'] = 0
+        # 平仓X
+        X_size = self.portfolio['X_position']
+        X_value = X_size * X_price
+        # self.portfolio['cash'] += X_value
+        # self.portfolio['cash'] += MockTradingSingle.shared.calculate_released_margin(self.leverage, self.portfolio['X_position'], X_price)
+        self.portfolio['X_position'] = 0
         
         # 平仓Y
         Y_size = self.portfolio['Y_position']
@@ -342,13 +342,13 @@ class PairsTradingBacktester:
         self.trade_log.append({
             'date': self._last_Date(),
             'action': 'CLOSE',
-            'ETH_price': eth_price,
+            'X_price': X_price,
             'Y_price': Y_price
         })
 
         # 记录交易日志到本地
-        if eth_value != 0 and Y_value != 0:
-            log(f"{datetime.datetime.now()}: CLOSE ETH_Size:{eth_size} Y_Size:{Y_size} ETH价格:{eth_price} Y价格:{Y_price}\n")
+        if X_value != 0 and Y_value != 0:
+            log(f"{datetime.datetime.now()}: CLOSE X_Size:{X_size} Y_Size:{Y_size} X价格:{X_price} Y价格:{Y_price}\n")
 
         self.closeOrder += 1
         self.closeOrderExcute()
@@ -361,26 +361,26 @@ class PairsTradingBacktester:
             exit(0)
         self.alreadyOpen = False
 
-    def _update_portfolio(self,Y_price = None,eth_price = None):
+    def _update_portfolio(self,Y_price = None,X_price = None):
         """更新投资组合价值"""
         Y_value = self.portfolio['Y_position'] * Y_price
-        eth_value = self.portfolio['ETH_position'] * eth_price
-        self.portfolio['total_value'] = self.portfolio['cash']+ Y_value + eth_value
+        X_value = self.portfolio['X_position'] * X_price
+        self.portfolio['total_value'] = self.portfolio['cash']+ Y_value + X_value
         # print(f"更新投资组合价值: {self.portfolio['total_value']:.2f}")
-        if Y_value != 0 or eth_value != 0:
-            print(f"更新投资组合价值: {self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_value:{Y_value:.2f},eth_value:{eth_value:.2f}")
+        if Y_value != 0 or X_value != 0:
+            print(f"更新投资组合价值: {self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_value:{Y_value:.2f},X_value:{X_value:.2f}")
 
-    def _record_state(self,Y_price = None,eth_price = None):
+    def _record_state(self,Y_price = None,X_price = None):
         """记录每日状态"""
         self.portfolio['history'].append({
             'date': self._last_Date(),
             'total_value': self.portfolio['total_value'],
             'Y_price': Y_price,
-            'ETH_price': eth_price,
+            'X_price': X_price,
             'Y_position': self.portfolio['Y_position'],
-            'ETH_position': self.portfolio['ETH_position']
+            'X_position': self.portfolio['X_position']
         })
-        # print(f"记录每日状态: {self._last_Date()},total_value:{self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_price:{Y_price:.2f},ETH_price:{eth_price:.2f},Y_position:{self.portfolio['Y_position']},ETH_position:{self.portfolio['ETH_position']}")
+        # print(f"记录每日状态: {self._last_Date()},total_value:{self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_price:{Y_price:.2f},X_price:{X_price:.2f},Y_position:{self.portfolio['Y_position']},X_position:{self.portfolio['X_position']}")
 
     def _generate_report(self):
 
@@ -399,9 +399,9 @@ class PairsTradingBacktester:
         
         # 价差和仓位
         print("价差和仓位")
-        # 移除掉history_df的ETH_price和Y_price的空值
-        history_df = history_df.dropna(subset=['ETH_price', 'Y_price'])
-        # 裁剪数据将history_df的ETH_price和Y_price长度对齐
+        # 移除掉history_df的X_price和Y_price的空值
+        history_df = history_df.dropna(subset=['X_price', 'Y_price'])
+        # 裁剪数据将history_df的X_price和Y_price长度对齐
         history_df = history_df.iloc[-len(self.current_data):]
 
         # 计算关键指标

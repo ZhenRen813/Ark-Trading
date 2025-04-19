@@ -61,25 +61,25 @@ class MockTrading:
         self.closeCount += 1
         self.balance = res
 
-    def _createOrder(self,eth_size,Y_size,eth_price,Y_price):
+    def _createOrder(self,X_size,Y_size,X_price,Y_price):
         # if self.avaliable_margin < self.balance / 2.0:
         #     return
         self.openCount += 1
-        # print(f"开仓:ETH:{eth_size} Y:{Y_size} ETH价格:{eth_price} Y价格:{Y_price}")
-        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME,eth_price,eth_price)
+        # print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
+        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME,X_price,X_price)
         self.margin_manager.update_price(YSymbolInfo.SYMBOL_NAME,Y_price,Y_price)
 
-        eth_required_margin = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if eth_size > 0 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
-        self.position.append(Position(XSymbolInfo.SYMBOL_NAME,eth_size,1 if eth_size > 0 else -1,eth_price,eth_required_margin, XSymbolInfo.SYMBOL_LEVERAGE))
-        self.used_margin += eth_required_margin
-        self.avaliable_margin -= eth_required_margin
+        X_required_margin = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if X_size > 0 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
+        self.position.append(Position(XSymbolInfo.SYMBOL_NAME,X_size,1 if X_size > 0 else -1,X_price,X_required_margin, XSymbolInfo.SYMBOL_LEVERAGE))
+        self.used_margin += X_required_margin
+        self.avaliable_margin -= X_required_margin
 
         Y_required_margin = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if Y_size > 0 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
         self.position.append(Position(YSymbolInfo.SYMBOL_NAME,Y_size,1 if Y_size > 0 else -1,Y_price,Y_required_margin, YSymbolInfo.SYMBOL_LEVERAGE))
         self.used_margin += Y_required_margin
         self.avaliable_margin -= Y_required_margin
 
-        self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME,eth_size,1 if eth_size > 0 else -1,eth_price,XSymbolInfo.SYMBOL_LEVERAGE)
+        self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME,X_size,1 if X_size > 0 else -1,X_price,XSymbolInfo.SYMBOL_LEVERAGE)
         self.margin_manager.add_position(YSymbolInfo.SYMBOL_NAME,Y_size,1 if Y_size > 0 else -1,Y_price,YSymbolInfo.SYMBOL_LEVERAGE)
         # self.symbol = symbol
         # self.size = size
