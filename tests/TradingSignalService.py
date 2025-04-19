@@ -38,7 +38,7 @@ class BaseTradeSignalService:
         if self.data is None:
             self.data = pd.DataFrame(columns=self.symbols.keys())
         """更新数据"""
-        # print(f"更新数据:BTC:{btc_price},ETH:{eth_price},datalen:{len(self.current_data)}")
+        # print(f"更新数据:Y:{Y_price},ETH:{eth_price},datalen:{len(self.current_data)}")
         if len(self.data) >= self.window:
             self.data = self.data.iloc[1:].reset_index(drop=True)
 
@@ -70,7 +70,7 @@ class PairsTradeSignalService(BaseTradeSignalService):
     def update_data(self, ticks:dict[str,TickData]):
         print('suck')
         """更新数据"""
-        # print(f"更新数据:BTC:{btc_price},ETH:{eth_price},datalen:{len(self.current_data)}")
+        # print(f"更新数据:Y:{Y_price},ETH:{eth_price},datalen:{len(self.current_data)}")
         if ticks is not None:
             super().update_data(ticks)
 

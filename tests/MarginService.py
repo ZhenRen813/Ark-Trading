@@ -119,15 +119,15 @@ class MarginManager:
 def test():
     # ‌Bid‌（买价）和‌Ask‌（卖价）
     m_m = MarginManager(1000)
-    btc_price = {'bid':84437.960,'ask':84417.540}
-    m_m.update_price('BTCUSD', bid=btc_price['bid'], ask=btc_price['ask'])
+    Y_price = {'bid':84437.960,'ask':84417.540}
+    m_m.update_price('YUSD', bid=Y_price['bid'], ask=Y_price['ask'])
     # m_m.update_price('ETHUSD', bid=300, ask=301)
-    m_m.add_position('BTCUSD', 0.01, 1, btc_price["bid"], 25)
-    m_m.add_position('BTCUSD', 0.01,-1, btc_price["ask"], 25)
+    m_m.add_position('YUSD', 0.01, 1, Y_price["bid"], 25)
+    m_m.add_position('YUSD', 0.01,-1, Y_price["ask"], 25)
     # m_m.add_position('ETHUSD', 1, -1, 301, 3)
     print(m_m.get_used_margin())
     print(m_m.get_available_margin())
-    m_m.update_price('BTCUSD', bid=84670.360, ask=84649.940)
+    m_m.update_price('YUSD', bid=84670.360, ask=84649.940)
     # print(m_m.get_available_margin())
     # # m_m.update_price('ETHUSD', 301, 302)
     # print(m_m.get_used_margin())
