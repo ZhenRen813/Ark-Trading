@@ -8,6 +8,11 @@ class Position:
         self.leverage = leverage  # 杠杆倍数
 
 class MarginManager:
+
+    def print(self, msg):
+        """打印日志"""
+        print(msg)
+
     def __init__(self, total_balance):
         self.total_balance = total_balance  # 总资金
         self.positions = []       # 当前持仓 {symbol: Position}
@@ -44,7 +49,7 @@ class MarginManager:
         
         bid, ask = self.symbol_prices[position.symbol]
         current_price = bid if position.direction == 1 else ask
-        print("get current profit = ",current_price - position.price)
+        self.print(f"get current profit = {current_price - position.price}")
         return (abs(position.size) * current_price) / position.leverage
 
     # TODO: 相反方向的仓位保证金应该合并，同样数量合并后按最大的来算
@@ -68,7 +73,7 @@ class MarginManager:
         for pos in copy:
             res = self.close_position(pos, pos.size)
             profit += res["realized_pnl"]
-            print(profit)
+            self.print(profit)
         del copy
         return self.total_balance
 
@@ -93,7 +98,7 @@ class MarginManager:
 
         # 更新账户余额
         self.total_balance += profit
-        print("balance",self.total_balance,"profit:",profit)
+        self.print(f"balance{self.total_balance} profit:{profit}")
 
         # 计算释放的保证金
         released_ratio = size / position.size

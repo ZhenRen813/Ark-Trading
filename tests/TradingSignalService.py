@@ -26,6 +26,11 @@ class TickData:
         self.price = price
 
 class BaseTradeSignalService:
+
+    def print(self, msg):
+        """打印日志"""
+        print(msg)
+
     def __init__(self, data, symbols:dict[str,SymbolInfo], window=30, settings=None):
         """初始化配对交易算法类"""
         self.data = data
@@ -40,14 +45,14 @@ class BaseTradeSignalService:
         if self.data is None:
             self.data = pd.DataFrame(columns=self.symbols.keys())
         """更新数据"""
-        # print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
+        # self.print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
         if len(self.data) >= self.window:
             self.data = self.data.iloc[1:].reset_index(drop=True)
 
         # use self.symbols to get symbolName and use the symbolName to update self.data
         new_data = { symbolName: ticks[symbolName].price for symbolName in self.symbols.keys() }
         self.data.loc[len(self.data)] = new_data
-        # print(f"更新数据: {self.data.loc[len(self.data)-1]}")
+        # self.print(f"更新数据: {self.data.loc[len(self.data)-1]}")
         
     def generate_signal(self,ticks:dict[str,TickData]):
         self.ticks = ticks
@@ -70,9 +75,9 @@ class PairsTradeSignalService(BaseTradeSignalService):
         self.symbol_names = [ symbolName for symbolName in self.symbols.keys() ]
 
     def update_data(self, ticks:dict[str,TickData]):
-        print('suck')
+        self.print('suck')
         """更新数据"""
-        # print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
+        # self.print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
         if ticks is not None:
             super().update_data(ticks)
 
@@ -93,7 +98,7 @@ class PairsTradeSignalService(BaseTradeSignalService):
             return
         
         # 打印当前数据量
-        print(f"当前数据量: {len(self.data)}")
+        self.print(f"当前数据量: {len(self.data)}")
 
         handle_data = self.data.copy()
         alpha = 0.3
@@ -101,18 +106,18 @@ class PairsTradeSignalService(BaseTradeSignalService):
         if len(self.symbol_names) != 2:
             ValueError("Only two symbols are supported")
 
-        print(f"sysmbol_names: {self.symbol_names}")
-        print(handle_data.head())
+        self.print(f"sysmbol_names: {self.symbol_names}")
+        self.print(handle_data.head())
         # 平滑价差序列
         x_smooth = self._smooth_spread(handle_data[self.symbol_names[0]],alpha)
         y_smooth = self._smooth_spread(handle_data[self.symbol_names[1]],alpha)
         
         # 协整检验
         score, pvalue, _ = coint(x_smooth,y_smooth)
-        # print(f"协整检验结果: p={pvalue:.4f}")
-        # print(f"协整检验结果: score={score:.4f}")
+        # self.print(f"协整检验结果: p={pvalue:.4f}")
+        # self.print(f"协整检验结果: score={score:.4f}")
         if pvalue < 0.05:
-            # print(">>>>协整关系有效")
+            # self.print(">>>>协整关系有效")
             # 计算对冲比率
             model = sm.OLS(y_smooth, sm.add_constant(x_smooth)).fit()
             self.hedge_ratio = model.params[self.symbol_names[0]]
@@ -123,11 +128,11 @@ class PairsTradeSignalService(BaseTradeSignalService):
                 'mean': spread.mean(),
                 'std': spread.std()
             }
-            # print(self.zscore_params)
+            # self.print(self.zscore_params)
             # log(f"协整关系有效 pvalue:{pvalue},参数:{self.zscore_params}")
             return True
         else:
-            print("协整关系无效")
+            self.print("协整关系无效")
             # 协整关系失效时清除参数
             # self.hedge_ratio = None
             # self.zscore_params = {}
@@ -136,36 +141,36 @@ class PairsTradeSignalService(BaseTradeSignalService):
         
     def generate_signal(self,ticks:dict[str,TickData],hedge_ratio=None,zscore_params=None):
         super().generate_signal(ticks)
-        # print(f"data_len:{len(self.data)}")
+        # self.print(f"data_len:{len(self.data)}")
         """生成交易信号（增加空值检查）"""
         # 检查模型是否有效
         if not hedge_ratio or not zscore_params:
-            # print(f"无有效模型,self.hedge_ratio:{self.hedge_ratio},self.zscore_params:{self.zscore_params}")
+            # self.print(f"无有效模型,self.hedge_ratio:{self.hedge_ratio},self.zscore_params:{self.zscore_params}")
             return 0  # 无有效模型时返回中性信号
         
         # 检查参数有效性
         if np.isnan(hedge_ratio) or zscore_params['std'] == 0:
-            print("参数无效")
+            self.print("参数无效")
             return None
 
         # 计算当前价差
         x_price = ticks[self.symbol_names[0]].price
         y_price = ticks[self.symbol_names[1]].price
-        # print(f"x_price:{x_price},y_price:{y_price}")
+        # self.print(f"x_price:{x_price},y_price:{y_price}")
         spread = y_price - hedge_ratio * x_price
-        # print(f"spread:{spread}")
+        # self.print(f"spread:{spread}")
         
         # 计算Z-Score
         zscore = (spread - zscore_params['mean']) / zscore_params['std']
         self.zsocres.append(zscore)
-        # print(f"++++++++++++++++++++++++++++++zscore:{zscore},hedgeratio:{self.hedge_ratio},spread:{spread}++++++++++++++++++++++++++++++++")
+        # self.print(f"++++++++++++++++++++++++++++++zscore:{zscore},hedgeratio:{self.hedge_ratio},spread:{spread}++++++++++++++++++++++++++++++++")
         # 生成信号（添加边界检查）
         try:
             if zscore > self.entry_z:
-                print(f"zscore:({zscore}) > self.entry_z:{self.entry_z}")
+                self.print(f"zscore:({zscore}) > self.entry_z:{self.entry_z}")
                 return -1
             elif zscore < -self.entry_z:
-                print(f"zscore:({zscore}) < -self.entry_z:{-self.entry_z}")
+                self.print(f"zscore:({zscore}) < -self.entry_z:{-self.entry_z}")
                 return 1
             elif abs(zscore) < self.exit_z:
                 return 0

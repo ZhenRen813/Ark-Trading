@@ -24,21 +24,26 @@ class MarginParams:
 market_prices = {XSymbolInfo.SYMBOL_NAME:0,YSymbolInfo.SYMBOL_NAME:0}
 
 def closeOrder():
-    # print("平仓")
+    # self.print("平仓")
     MockTradingSingle.shared._closeOredr(market_prices)
 
 def createOrder(X_size,Y_size,X_price,Y_price):
-    # print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
+    # self.print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
     MockTradingSingle.shared._createOrder(X_size,Y_size,X_price,Y_price)
 
 # def closeOrder():
-#     print("平仓")
+#     self.print("平仓")
 
 # def createOrder(X_size,Y_size,X_price,Y_price):
-#     print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
+#     self.print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
 
 
 class PairsTradingBacktester:
+
+
+    def print(self, msg):
+        """打印日志"""
+        print(msg)
 
     createOrder = 0
     closeOrder = 0
@@ -103,7 +108,7 @@ class PairsTradingBacktester:
             # 修改获取 current_data 的逻辑
             start_idx = max(0, i - self.window)
             if self.current_data is None or len(self.current_data) < self.window:
-                # print("初始化数据")
+                # self.print("初始化数据")
                 self.current_data = self.data.iloc[start_idx:i+1]
                 continue
             else:
@@ -125,14 +130,14 @@ class PairsTradingBacktester:
         self.margin_manager.total_balance = cash/100.0 * 100
 
     def _reload_data(self, Y_data, X_data):
-        print("重新加载数据")
+        self.print("重新加载数据")
         """重新加载数据"""
         self.data = pd.DataFrame({
             YSymbolInfo.SYMBOL_NAME: Y_data['close'],
             XSymbolInfo.SYMBOL_NAME: X_data['close']
         }).dropna()
         self.current_data = self.data
-        print(f"重新加载数据:Y:{Y_data['close']},X:{X_data['close']},datalen:{len(self.current_data)}")
+        self.print(f"重新加载数据:Y:{Y_data['close']},X:{X_data['close']},datalen:{len(self.current_data)}")
         self.service.data = pd.DataFrame({
             YSymbolInfo.SYMBOL_NAME: Y_data['close'],
             XSymbolInfo.SYMBOL_NAME: X_data['close']
@@ -145,7 +150,7 @@ class PairsTradingBacktester:
 
     def _update_data(self, Y_price, X_price):
         """更新数据"""
-        # print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
+        # self.print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
         if len(self.current_data) >= self.window:
             # self.current_data = self.current_data.drop(index=self.current_data.index[0])
             self.current_data = self.current_data.iloc[1:].reset_index(drop=True)
@@ -172,10 +177,10 @@ class PairsTradingBacktester:
         self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, X_price, X_price)
         # TODO: check why 'cash' < 0
         if len(self.current_data) < 30 or self.margin_manager.get_available_margin() <= 0 or Y_price is None or X_price is None:  # 最小数据量要求
-            print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},Y_price:{Y_price},X_price:{X_price}")
+            self.print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},Y_price:{Y_price},X_price:{X_price}")
             return None
 
-        # print(f">>>>>>>>>>>>>>>>>>>>>>>>>cash:{self.portfolio['cash']},balance:{self.balance},used_margin:{self.used_margin},hedge_ratio:{self.hedge_ratio},zsocre_params:{self.zscore_params}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        # self.print(f">>>>>>>>>>>>>>>>>>>>>>>>>cash:{self.portfolio['cash']},balance:{self.balance},used_margin:{self.used_margin},hedge_ratio:{self.hedge_ratio},zsocre_params:{self.zscore_params}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         # 生成交易信号
         signal = self._generate_signal(Y_price, X_price)
@@ -233,11 +238,11 @@ class PairsTradingBacktester:
             if self.alreadyOpen:
                 return
             if self.margin_manager.get_available_margin() < MarginParams.MAX_POSITION_Value:
-                print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
+                self.print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
                 return
             # 计算头寸规模（保持美元中性）
             position_value = MarginParams.MAX_POSITION_Value#self.portfolio['cash'] / 2 #* 36
-            print(f"position_value:{position_value}")
+            self.print(f"position_value:{position_value}")
             # 仓位精度为两个小数点，价格精度为三个小数点
             # Y_size = position_value / Y_price
             # X_size = position_value / X_price
@@ -249,17 +254,17 @@ class PairsTradingBacktester:
                 Y_size = X_size * abs(self.service.hedge_ratio)
             es_margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
-            print("es_margin",es_margin1 + es_margin2)
+            self.print("es_margin",es_margin1 + es_margin2)
             times = round(position_value / (es_margin1 + es_margin2),0)
             Y_size = Y_size * times
             X_size = X_size * times
-            # print("对冲比率",self.service.hedge_ratio,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",Y_size,X_size)
+            # self.print("对冲比率",self.service.hedge_ratio,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",Y_size,X_size)
             # times = 0
 
             # while (abs(Y_size) * abs(Y_price)) + (abs(X_size) * abs(X_price)) * times < position_value:
             #     times += 1
             # if times == 0:
-            #     print("不够钱==================================",Y_price,X_price)
+            #     self.print("不够钱==================================",Y_price,X_price)
             #     return
             # Y_size = Y_size * times
             # X_size = X_size * times
@@ -276,7 +281,7 @@ class PairsTradingBacktester:
             margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
             # if margin1 + margin2 + self.used_margin > (self.margin_manager.get_available_margin()):
-            #     print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+            #     self.print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             #     return
             
             if signal == 1:  # 做多价差
@@ -355,8 +360,8 @@ class PairsTradingBacktester:
         self._update_used_margin(0)
         self.portfolio['cash'] = self.margin_manager.get_available_margin()
         if self.margin_manager.get_available_margin() < 0:
-            print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
-            print(self.margin_manager.get_all_current_margin())
+            self.print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
+            self.print(self.margin_manager.get_all_current_margin())
             exit(0)
         self.alreadyOpen = False
 
@@ -365,9 +370,9 @@ class PairsTradingBacktester:
         Y_value = self.portfolio['Y_position'] * Y_price
         X_value = self.portfolio['X_position'] * X_price
         self.portfolio['total_value'] = self.portfolio['cash']+ Y_value + X_value
-        # print(f"更新投资组合价值: {self.portfolio['total_value']:.2f}")
+        # self.print(f"更新投资组合价值: {self.portfolio['total_value']:.2f}")
         if Y_value != 0 or X_value != 0:
-            print(f"更新投资组合价值: {self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_value:{Y_value:.2f},X_value:{X_value:.2f}")
+            self.print(f"更新投资组合价值: {self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_value:{Y_value:.2f},X_value:{X_value:.2f}")
 
     def _record_state(self,Y_price = None,X_price = None):
         """记录每日状态"""
@@ -379,12 +384,12 @@ class PairsTradingBacktester:
             'Y_position': self.portfolio['Y_position'],
             'X_position': self.portfolio['X_position']
         })
-        # print(f"记录每日状态: {self._last_Date()},total_value:{self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_price:{Y_price:.2f},X_price:{X_price:.2f},Y_position:{self.portfolio['Y_position']},X_position:{self.portfolio['X_position']}")
+        # self.print(f"记录每日状态: {self._last_Date()},total_value:{self.portfolio['total_value']:.2f},cash:{self.portfolio['cash']:.2f},Y_price:{Y_price:.2f},X_price:{X_price:.2f},Y_position:{self.portfolio['Y_position']},X_position:{self.portfolio['X_position']}")
 
     def _generate_report(self):
 
         if self.createOrder == 0 or self.closeOrder == 0:
-            print("无交易记录")
+            self.print("无交易记录")
             return
 
         """生成分析报告"""
@@ -392,27 +397,27 @@ class PairsTradingBacktester:
         trade_df = pd.DataFrame(self.trade_log)
         
         # 计算收益
-        print("计算收益")
+        self.print("计算收益")
         history_df['returns'] = history_df['total_value'].pct_change()
         history_df['cum_returns'] = (1 + history_df['returns']).cumprod()
         
         # 价差和仓位
-        print("价差和仓位")
+        self.print("价差和仓位")
         # 移除掉history_df的X_price和Y_price的空值
         history_df = history_df.dropna(subset=['X_price', 'Y_price'])
         # 裁剪数据将history_df的X_price和Y_price长度对齐
         history_df = history_df.iloc[-len(self.current_data):]
 
         # 计算关键指标
-        print("计算关键指标")
+        self.print("计算关键指标")
         total_return = history_df['cum_returns'].iloc[-1] - 1
         sharpe = self._calculate_sharpe(history_df['returns'])
         max_drawdown = self._calculate_max_drawdown(history_df['total_value'])
         
-        print(f"策略总收益: {total_return:.2%}")
-        print(f"夏普比率: {sharpe:.2f}")
-        print(f"最大回撤: {max_drawdown:.2%}")
-        print(f"总交易次数: {len(trade_df)}")
+        self.print(f"策略总收益: {total_return:.2%}")
+        self.print(f"夏普比率: {sharpe:.2f}")
+        self.print(f"最大回撤: {max_drawdown:.2%}")
+        self.print(f"总交易次数: {len(trade_df)}")
         self.report = {
             'total_return': total_return,
             'sharpe': sharpe,
@@ -421,7 +426,7 @@ class PairsTradingBacktester:
         }
 
         # 将 self.service.zsocres 绘制成折线图
-        print("绘制折线图",len(self.service.zsocres))
+        self.print("绘制折线图",len(self.service.zsocres))
         # plt.plot(self.service.zsocres)
         # plt.show()
         
@@ -466,13 +471,13 @@ if __name__ == "__main__":
     for entry_z in entry_z_arr:
         for window in windows:
             # MockTradingSingle.shared = MockTrading(balance=1000000,leverage=100)
-            print(f"window:{window}  entry_z={entry_z}")
+            self.print(f"window:{window}  entry_z={entry_z}")
             # backtester = PairsTradingBacktester(entry_z=entry_z, exit_z=0.5,window=window,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
             # backtester.run_backtest_2(all_data, window=window)
-            # print(f"建仓次数:{backtester.createOrder}")
-            # print(f"平仓次数:{backtester.closeOrder}")
+            # self.print(f"建仓次数:{backtester.createOrder}")
+            # self.print(f"平仓次数:{backtester.closeOrder}")
             # MockTradingSingle.shared._generate_report()
-            # print("=========================================================")
+            # self.print("=========================================================")
             # # 测试结果写入日志
             # with open('tradinglogPxxx.log', 'a') as f:
             #     f.write(f"window:{window}  entry_z={entry_z}\n")
@@ -489,8 +494,8 @@ if __name__ == "__main__":
     backtester.run_backtest_2(all_data, window=180)
 
     
-    print(f"建仓次数:{backtester.createOrder}")
-    print(f"平仓次数:{backtester.closeOrder}")
+    self.print(f"建仓次数:{backtester.createOrder}")
+    self.print(f"平仓次数:{backtester.closeOrder}")
 
     MockTradingSingle.shared._generate_report()
 
