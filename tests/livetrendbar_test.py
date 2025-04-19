@@ -7,7 +7,7 @@ import sys
 sys.path.append('..')
 import pandas as pd
 from backtest import PairsTradingBacktester
-from TradingSignalService import SymbolInfo, PairsTradeSignalService, ETHSymbolInfo, BTCSymbolInfo
+from TradingSignalService import SymbolInfo, PairsTradeSignalService, XSymbolInfo, YSymbolInfo
 
 
 import numpy as np
@@ -65,7 +65,7 @@ class ACCOUNT:
     EUD = 42563188
 
 class AccountInfo:
-    ACCOUNT_ID = ACCOUNT.USD
+    ACCOUNT_ID = ACCOUNT.EUD
     CLIENT_ID = "13628_lbJ2ix1H7UFg5W8ar2eeoFOL0xJUR88G2BLhdvJqnCWtytEzSn"
     CLIENT_SECRET = "hpGJohkYLBBDuzd1nYkb6YPuZD74hE45yGTu9U0nNwJxwlurQu"
     ACCESS = "Xjfns1lfehTNSh3YYIAEapmO_P9r2FREBFsDhQUdDQ4"
@@ -146,17 +146,15 @@ async def closeAllPostion(client: OpenApiClient,account_id: int):
 
 
 
-btcData = None
-ethData = None
 
 class TrendbarData:
-    btcData: ProtoOAGetTrendbarsRes = None
-    ethData: ProtoOAGetTrendbarsRes = None
+    YData: ProtoOAGetTrendbarsRes = None
+    XData: ProtoOAGetTrendbarsRes = None
     processData = None
 
 class RealTimePrice:
-    eth: int = 0
-    btc: int = 0
+    X: int = 0
+    Y: int = 0
     timestampInMin: int = 0
 
 class Holdings:
@@ -173,8 +171,8 @@ realTime = RealTimePrice()
 balance = 0
 
 local_data = pd.DataFrame({
-            ETHSymbolInfo.SYMBOL_NAME: [],
-            BTCSymbolInfo.SYMBOL_NAME: []
+            XSymbolInfo.SYMBOL_NAME: [],
+            YSymbolInfo.SYMBOL_NAME: []
         }).dropna()
 # trader = rt.PairsTradingRealtime()
 # position = tp.PairsTradingPosition(available_margin=1000,total_capital=1000) # TODO: 传入账户总资金和当前仓位
@@ -195,40 +193,40 @@ async def scheduled_task(client,realtime, trendbarDa,result_queue, symbol_id1, s
         )
         print(f"获取{symbol_id2}数据成功, 共{len(history_trend_res2.trendbar)}条数据")
         day -= 7
-        trendbarDa.ethData = history_trend_res1
-        trendbarDa.btcData = history_trend_res2
+        trendbarDa.XData = history_trend_res1
+        trendbarDa.YData = history_trend_res2
 
         # last timeStamp in minutes
         current_timeStamp = history_trend_res1.trendbar[-1].utcTimestampInMinutes
-        if realtime.btc == 0 or realtime.timestampInMin < current_timeStamp:
-            realtime.btc = history_trend_res1.trendbar[-1].low + history_trend_res1.trendbar[-1].deltaClose
+        if realtime.Y == 0 or realtime.timestampInMin < current_timeStamp:
+            realtime.Y = history_trend_res1.trendbar[-1].low + history_trend_res1.trendbar[-1].deltaClose
             realtime.timestampInMin = history_trend_res1.trendbar[-1].utcTimestampInMinutes
-        if realtime.eth == 0 or realtime.timestampInMin < current_timeStamp:
-            realtime.eth = history_trend_res2.trendbar[-1].low + history_trend_res2.trendbar[-1].deltaClose
+        if realtime.X == 0 or realtime.timestampInMin < current_timeStamp:
+            realtime.X = history_trend_res2.trendbar[-1].low + history_trend_res2.trendbar[-1].deltaClose
             realtime.timestampInMin = history_trend_res2.trendbar[-1].utcTimestampInMinutes
         
-        df1,df2 = processData(trendbarData.btcData, trendbarData.ethData)
+        df1,df2 = processData(trendbarData.YData, trendbarData.XData)
         dataFrame = pd.DataFrame({
-            ETHSymbolInfo.SYMBOL_NAME: df1['close']/Price_Digits,
-            BTCSymbolInfo.SYMBOL_NAME: df2['close']/Price_Digits
+            XSymbolInfo.SYMBOL_NAME: df1['close']/Price_Digits,
+            YSymbolInfo.SYMBOL_NAME: df2['close']/Price_Digits
         }).dropna()
         global local_data
         local_data = pd.concat([local_data,dataFrame])
         local_data.to_csv('data.csv')
-        # btc、eth
+        # Y、X
         algo._reload_data(df2,df1)
-        hanleHistoryData(trendbarData.btcData, trendbarData.ethData)
+        hanleHistoryData(trendbarData.YData, trendbarData.XData)
         # await asyncio.sleep(30)
 
-def hanleHistoryData(btc_data, eth_data):
+def hanleHistoryData(Y_data, X_data):
 # 数据处理
-    df1, df2 = processData(btc_data, eth_data)
+    df1, df2 = processData(Y_data, X_data)
     print(len(df1))
 
     # 读取数据
     historical =  pd.DataFrame({
-            ETHSymbolInfo.SYMBOL_NAME: df2['close'],
-            BTCSymbolInfo.SYMBOL_NAME: df1['close']
+            XSymbolInfo.SYMBOL_NAME: df2['close'],
+            YSymbolInfo.SYMBOL_NAME: df1['close']
         }).dropna()
     
     # trader.initialize_history(historical)
@@ -237,28 +235,28 @@ def hanleHistoryData(btc_data, eth_data):
     return historical
 
 
-def processData(btc_data, eth_data):
+def processData(Y_data, X_data):
 
     # 将数组对象转换为DataFrame
-    btc_prices = pd.DataFrame(columns=['utcTimestampInMinutes', 'close'])
-    btc_list = []
-    for trendbar in btc_data.trendbar:
+    Y_prices = pd.DataFrame(columns=['utcTimestampInMinutes', 'close'])
+    Y_list = []
+    for trendbar in Y_data.trendbar:
         new_row = {'utcTimestampInMinutes':trendbar.utcTimestampInMinutes,'close': trendbar.low + trendbar.deltaClose/Price_Digits}  
-        btc_list.append(new_row)
-    btc_prices = pd.DataFrame(btc_list)
+        Y_list.append(new_row)
+    Y_prices = pd.DataFrame(Y_list)
 
-    eth_prices = pd.DataFrame(columns=['utcTimestampInMinutes', 'close'])
-    eth_list = []
-    for trendbar in eth_data.trendbar:
+    X_prices = pd.DataFrame(columns=['utcTimestampInMinutes', 'close'])
+    X_list = []
+    for trendbar in X_data.trendbar:
         new_row = {'utcTimestampInMinutes':trendbar.utcTimestampInMinutes,'close': trendbar.low + trendbar.deltaClose/Price_Digits}  
-        eth_list.append(new_row)
-    eth_prices = pd.DataFrame(eth_list)
+        X_list.append(new_row)
+    X_prices = pd.DataFrame(X_list)
 
-    print(btc_prices.head())
-    print(eth_prices.head())
+    print(Y_prices.head())
+    print(X_prices.head())
 
-    df1 = btc_prices
-    df2 = eth_prices
+    df1 = Y_prices
+    df2 = X_prices
 
     # print(">>>>1 " + str(len(df1)))
 
@@ -309,7 +307,7 @@ async def main() -> None:
     XSymbolId = 0
     YSymbolId = 0
 
-    def resetHoldingSize():
+    def resXoldingSize():
         holding.X = 0
         holding.Y = 0
 
@@ -319,23 +317,23 @@ async def main() -> None:
 
     async def async_closeOrder():
         print("平仓")
-        print(f"平仓:ETH:{holding.X} BTC:{holding.Y}")
+        print(f"平仓:X:{holding.X} Y:{holding.Y}")
         await closeAllPostion(client,ACCOUNT_ID)
-        resetHoldingSize()
+        resXoldingSize()
         print("平仓完成")
         await async_checkUsedMargin()
         await async_updateBalance()
 
-    def createOrder(eth_size,btc_size,eth_price,btc_price):
+    def createOrder(X_size,Y_size,X_price,Y_price):
         loop = asyncio.get_event_loop()
-        asyncio.run_coroutine_threadsafe(async_createOrder(eth_size,btc_size,eth_price,btc_price), loop)
+        asyncio.run_coroutine_threadsafe(async_createOrder(X_size,Y_size,X_price,Y_price), loop)
 
-    async def async_createOrder(eth_size,btc_size,eth_price,btc_price):
-        print(f"开仓:ETH:{eth_size} BTC:{btc_size} ETH价格:{eth_price} BTC价格:{btc_price}")
-        holding.X += eth_size
-        holding.Y += btc_size
-        await createNewOrderRequest(client, ACCOUNT_ID, XSymbolId, abs(eth_size), ProtoOATradeSide.BUY if eth_size >0 else ProtoOATradeSide.SELL, ProtoOAOrderType.MARKET)
-        await createNewOrderRequest(client, ACCOUNT_ID, YSymbolId, abs(btc_size), ProtoOATradeSide.BUY if btc_size >0 else ProtoOATradeSide.SELL, ProtoOAOrderType.MARKET)
+    async def async_createOrder(X_size,Y_size,X_price,Y_price):
+        print(f"开仓:X:{X_size} Y:{Y_size} X价格:{X_price} Y价格:{Y_price}")
+        holding.X += X_size
+        holding.Y += Y_size
+        await createNewOrderRequest(client, ACCOUNT_ID, XSymbolId, abs(X_size), ProtoOATradeSide.BUY if X_size >0 else ProtoOATradeSide.SELL, ProtoOAOrderType.MARKET)
+        await createNewOrderRequest(client, ACCOUNT_ID, YSymbolId, abs(Y_size), ProtoOATradeSide.BUY if Y_size >0 else ProtoOATradeSide.SELL, ProtoOAOrderType.MARKET)
         print("开仓完成")
         await async_checkUsedMargin()
         # await async_updateBalance()
@@ -398,18 +396,18 @@ async def main() -> None:
         symbol_infos = {}
 
         for symbol in symbol_list_res.symbol:
-            if symbol.symbolName == ETHSymbolInfo.SYMBOL_NAME:
-                print("find eth symbol")
+            if symbol.symbolName == XSymbolInfo.SYMBOL_NAME:
+                print("find X symbol")
                 print(symbol.symbolId)
                 XSymbolId = symbol.symbolId
                 symbol_ids.append(symbol.symbolId)
-                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,ETHSymbolInfo.SYMBOL_LEVERAGE)
-            elif symbol.symbolName == BTCSymbolInfo.SYMBOL_NAME:
-                print("find btc symbol")
+                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,XSymbolInfo.SYMBOL_LEVERAGE)
+            elif symbol.symbolName == YSymbolInfo.SYMBOL_NAME:
+                print("find Y symbol")
                 print(symbol.symbolId)
                 YSymbolId = symbol.symbolId
                 symbol_ids.append(symbol.symbolId)
-                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,BTCSymbolInfo.SYMBOL_LEVERAGE)
+                symbol_infos[symbol.symbolName] = SymbolInfo(symbol.symbolId,symbol.symbolName,YSymbolInfo.SYMBOL_LEVERAGE)
 
         print(symbol_ids)
         algo.service = PairsTradeSignalService(data=None,symbols=symbol_infos,window=RunParams.Window,settings={'entry_z':algo.entry_z,'exit_z':algo.exit_z})
@@ -425,7 +423,7 @@ async def main() -> None:
         # 立即执行首次任务
         # task1 = asyncio.create_task(scheduled_task(client,trendbarData,result_queue, symbol_ids[0], symbol_ids[1]))
         await scheduled_task(client,realTime,trendbarData,result_queue, XSymbolId, YSymbolId,algo)
-        # createOrder(0.44,0.01,realTime.eth,realTime.btc)
+        # createOrder(0.44,0.01,realTime.X,realTime.Y)
 
         global current_refresh_time
         current_refresh_time = datetime.datetime.now()
@@ -456,16 +454,16 @@ async def main() -> None:
                     if spot_event.ask == 0 or spot_event.bid == 0:
                         print(">>>>>>>>>>>>>>>>ask is 0")
                         continue
-                    realTime.eth = (spot_event.ask + spot_event.bid) / 2 / Price_Digits
+                    realTime.X = (spot_event.ask + spot_event.bid) / 2 / Price_Digits
                 if spot_event.symbolId == YSymbolId:
                     if spot_event.ask == 0 or spot_event.bid == 0:
                         print(">>>>>>>>>>>>>>>>ask is 0")
                         continue
-                    realTime.btc = (spot_event.ask + spot_event.bid) / 2 / Price_Digits
-                if realTime.eth == 0 or realTime.btc == 0:
+                    realTime.Y = (spot_event.ask + spot_event.bid) / 2 / Price_Digits
+                if realTime.X == 0 or realTime.Y == 0:
                     print(">>>>>>>>>>>>>>>>ask is 0")
                     continue
-                if trendbarData.btcData is not None:
+                if trendbarData.YData is not None:
                     current_time = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
                     """
                     {
@@ -479,7 +477,7 @@ async def main() -> None:
                     if True:
                         if XSymbolId == 0 or YSymbolId == 0:
                             continue
-                        signal = algo._checkUpdateSignal(reset_model=False, btc_price=realTime.btc, eth_price=realTime.eth)
+                        signal = algo._checkUpdateSignal(reset_model=False, Y_price=realTime.Y, X_price=realTime.X)
                         if signal is not None:
                             print(f"signal: {signal}")
                             # trade_req = ProtoOATraderReq(ctidTraderAccountId=ACCOUNT_ID)
@@ -487,14 +485,14 @@ async def main() -> None:
                             # balance = trade_res.trader.balance
                             # algo._update_balance(balance)
                             # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                            # print(f"BTC:{realTime.btc} ETH:{realTime.eth}")
+                            # print(f"Y:{realTime.Y} X:{realTime.X}")
                             # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 
                     now = datetime.datetime.now()
                     if (now - current_refresh_time).seconds > 60:
                         # await scheduled_task(client,realTime,trendbarData,result_queue, symbol_ids[0], symbol_ids[1],algo)
-                        algo._update_data(btc_price=realTime.btc, eth_price=realTime.eth)
+                        algo._update_data(Y_price=realTime.Y, X_price=realTime.X)
                         realTime.timestampInMin += 1
                         print("Update data every minute")
                         algo._write_all_data_to_file()
