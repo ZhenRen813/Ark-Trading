@@ -8,7 +8,7 @@ import gc
 from mockTrading import MockTradingSingle,MockTrading
 import sys
 sys.path.append('../src')
-from TradingSignalService import SymbolInfo,TickData, PairsTradeSignalService, ETHSymbolInfo, BTCSymbolInfo
+from TradingSignalService import SymbolInfo,TickData, PairsTradeSignalService, XSymbolInfo, BTCSymbolInfo
 from MarginService import Position,MarginManager
 
 def log(msg):
@@ -22,7 +22,7 @@ class MarginParams:
     MAX_POSITION_Value = 3000
 
 
-market_prices = {ETHSymbolInfo.SYMBOL_NAME:0,BTCSymbolInfo.SYMBOL_NAME:0}
+market_prices = {XSymbolInfo.SYMBOL_NAME:0,BTCSymbolInfo.SYMBOL_NAME:0}
 
 def closeOrder():
     # print("平仓")
@@ -79,11 +79,11 @@ class PairsTradingBacktester:
         self.balance = initial_cash
         self.report = None
         self.service = PairsTradeSignalService(data=None,symbols={BTCSymbolInfo.SYMBOL_NAME:SymbolInfo(BTCSymbolInfo.SYMBOL_NAME,BTCSymbolInfo.SYMBOL_NAME,BTCSymbolInfo.SYMBOL_LEVERAGE),
-                                                                  ETHSymbolInfo.SYMBOL_NAME:SymbolInfo(ETHSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_LEVERAGE)},window=window,settings={'entry_z':self.entry_z,'exit_z':self.exit_z})
+                                                                  XSymbolInfo.SYMBOL_NAME:SymbolInfo(XSymbolInfo.SYMBOL_NAME,XSymbolInfo.SYMBOL_NAME,XSymbolInfo.SYMBOL_LEVERAGE)},window=window,settings={'entry_z':self.entry_z,'exit_z':self.exit_z})
         self.margin_manager = MarginManager(total_balance=initial_cash)
 
     def run_backtest_2(self,df, window=1500):
-        # self.service.data = df.rename(columns={BTCSymbolInfo.SYMBOL_NAME:BTCSymbolInfo.SYMBOL_NAME,ETHSymbolInfo.SYMBOL_NAME:ETHSymbolInfo.SYMBOL_NAME})
+        # self.service.data = df.rename(columns={BTCSymbolInfo.SYMBOL_NAME:BTCSymbolInfo.SYMBOL_NAME,XSymbolInfo.SYMBOL_NAME:XSymbolInfo.SYMBOL_NAME})
         self._backtest_with_df(df, window)
 
     def run_backtest(self,btc_data, eth_data, window=1500):
@@ -91,7 +91,7 @@ class PairsTradingBacktester:
         # 合并数据
         self.data = pd.DataFrame({
             BTCSymbolInfo.SYMBOL_NAME: btc_data,
-            ETHSymbolInfo.SYMBOL_NAME: eth_data
+            XSymbolInfo.SYMBOL_NAME: eth_data
         }).dropna()
         self._backtest_with_df(self.data, window)
     
@@ -110,8 +110,8 @@ class PairsTradingBacktester:
             else:
                 if i+1 < len(self.data):
                     btc_price = self.data[BTCSymbolInfo.SYMBOL_NAME].iloc[i+1]
-                    etc_price = self.data[ETHSymbolInfo.SYMBOL_NAME].iloc[i+1]
-                    self._update_data(self.data[BTCSymbolInfo.SYMBOL_NAME].iloc[i+1], self.data[ETHSymbolInfo.SYMBOL_NAME].iloc[i+1])
+                    etc_price = self.data[XSymbolInfo.SYMBOL_NAME].iloc[i+1]
+                    self._update_data(self.data[BTCSymbolInfo.SYMBOL_NAME].iloc[i+1], self.data[XSymbolInfo.SYMBOL_NAME].iloc[i+1])
                     self._checkUpdateSignal(reset_model=True,btc_price=btc_price,eth_price=etc_price)
                 else:
                     break
@@ -130,13 +130,13 @@ class PairsTradingBacktester:
         """重新加载数据"""
         self.data = pd.DataFrame({
             BTCSymbolInfo.SYMBOL_NAME: btc_data['close'],
-            ETHSymbolInfo.SYMBOL_NAME: eth_data['close']
+            XSymbolInfo.SYMBOL_NAME: eth_data['close']
         }).dropna()
         self.current_data = self.data
         print(f"重新加载数据:BTC:{btc_data['close']},ETH:{eth_data['close']},datalen:{len(self.current_data)}")
         self.service.data = pd.DataFrame({
             BTCSymbolInfo.SYMBOL_NAME: btc_data['close'],
-            ETHSymbolInfo.SYMBOL_NAME: eth_data['close']
+            XSymbolInfo.SYMBOL_NAME: eth_data['close']
         }).dropna()
         self.service.update_data(None)
 
@@ -152,25 +152,25 @@ class PairsTradingBacktester:
             self.current_data = self.current_data.iloc[1:].reset_index(drop=True)
         self.current_data.loc[len(self.current_data)] = {
             BTCSymbolInfo.SYMBOL_NAME: btc_price,
-            ETHSymbolInfo.SYMBOL_NAME: eth_price,
+            XSymbolInfo.SYMBOL_NAME: eth_price,
         }
         self.data.loc[len(self.data)] = {
             BTCSymbolInfo.SYMBOL_NAME: btc_price,
-            ETHSymbolInfo.SYMBOL_NAME: eth_price,
+            XSymbolInfo.SYMBOL_NAME: eth_price,
         }
         self.btc_price = btc_price
         self.eth_price = eth_price
-        market_prices[ETHSymbolInfo.SYMBOL_NAME] = self.eth_price
+        market_prices[XSymbolInfo.SYMBOL_NAME] = self.eth_price
         market_prices[BTCSymbolInfo.SYMBOL_NAME] = self.btc_price
 
-        self.service.update_data({BTCSymbolInfo.SYMBOL_NAME:TickData(BTCSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),btc_price),ETHSymbolInfo.SYMBOL_NAME:TickData(ETHSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),eth_price)})
+        self.service.update_data({BTCSymbolInfo.SYMBOL_NAME:TickData(BTCSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),btc_price),XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,datetime.datetime.now().timestamp(),eth_price)})
     
     def _write_all_data_to_file(self):
         self.data.to_csv('algo_allData.csv')
 
     def _checkUpdateSignal(self,reset_model = False,btc_price = None, eth_price = None):
         self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME, btc_price, btc_price)
-        self.margin_manager.update_price(ETHSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
+        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
         # TODO: check why 'cash' < 0
         if len(self.current_data) < 30 or self.margin_manager.get_available_margin() <= 0 or btc_price is None or eth_price is None:  # 最小数据量要求
             print(f"数据不足,当前数据量:{len(self.current_data)},cash:{self.portfolio['cash']},btc_price:{btc_price},eth_price:{eth_price}")
@@ -200,7 +200,7 @@ class PairsTradingBacktester:
         time = datetime.datetime.now().timestamp()
         ticks:dict[str,TickData] = {
             BTCSymbolInfo.SYMBOL_NAME:TickData(BTCSymbolInfo.SYMBOL_NAME,time,btc_price),
-            ETHSymbolInfo.SYMBOL_NAME:TickData(ETHSymbolInfo.SYMBOL_NAME,time,eth_price)
+            XSymbolInfo.SYMBOL_NAME:TickData(XSymbolInfo.SYMBOL_NAME,time,eth_price)
         }
         return self.service.generate_signal(ticks,self.service.hedge_ratio,self.service.zscore_params)
     
@@ -223,7 +223,7 @@ class PairsTradingBacktester:
         btc_price = _btc_price
         eth_price = _eth_price
         self.margin_manager.update_price(BTCSymbolInfo.SYMBOL_NAME, btc_price, btc_price)
-        self.margin_manager.update_price(ETHSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
+        self.margin_manager.update_price(XSymbolInfo.SYMBOL_NAME, eth_price, eth_price)
         
         # 平仓逻辑
         if signal == 0 and (self.portfolio['BTC_position'] != 0 or self.portfolio['ETH_position'] != 0):
@@ -233,7 +233,7 @@ class PairsTradingBacktester:
         if signal in [-1, 1]:
             if self.alreadyOpen:
                 return
-            if self.margin_manager.get_available_margin() < 700:
+            if self.margin_manager.get_available_margin() < MarginParams.MAX_POSITION_Value:
                 print(f"保证金不足==================================,used_margin:{self.used_margin},balance:{self.balance}")
                 return
             # 计算头寸规模（保持美元中性）
@@ -242,10 +242,15 @@ class PairsTradingBacktester:
             # 仓位精度为两个小数点，价格精度为三个小数点
             # btc_size = position_value / btc_price
             # eth_size = position_value / eth_price
-            btc_size = MarginParams.MIN_POSITION_SIZE
-            eth_size = btc_size / self.service.hedge_ratio #self.hedge_ratio
-            es_margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, 25)
-            es_margin2 = self.margin_manager.calculate_required_margin(ETHSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, 3)
+            if abs(self.service.hedge_ratio) <= 1:
+                btc_size = MarginParams.MIN_POSITION_SIZE
+                eth_size = btc_size / abs(self.service.hedge_ratio) #self.hedge_ratio
+            else:
+                eth_size = MarginParams.MIN_POSITION_SIZE
+                btc_size = eth_size * abs(self.service.hedge_ratio)
+            es_margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, BTCSymbolInfo.SYMBOL_LEVERAGE)
+            es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
+            print("es_margin",es_margin1 + es_margin2)
             times = round(position_value / (es_margin1 + es_margin2),0)
             btc_size = btc_size * times
             eth_size = eth_size * times
@@ -260,7 +265,7 @@ class PairsTradingBacktester:
             # btc_size = btc_size * times
             # eth_size = eth_size * times
 
-            if btc_size < 0.01 or eth_size < 0.01:
+            if btc_size < MarginParams.MIN_POSITION_SIZE or eth_size < MarginParams.MIN_POSITION_SIZE:
                 log(f"头寸过小{btc_size},{eth_size},取消交易,position_value:{position_value},time:{datetime.datetime.now()},btc_price:{btc_price},eth_price:{eth_price}")
                 return
             
@@ -269,8 +274,8 @@ class PairsTradingBacktester:
 
             self.createOrder += 1
 
-            margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, 25)
-            margin2 = self.margin_manager.calculate_required_margin(ETHSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, 3)
+            margin1 = self.margin_manager.calculate_required_margin(BTCSymbolInfo.SYMBOL_NAME, btc_size, 1 if signal == 1 else -1, BTCSymbolInfo.SYMBOL_LEVERAGE)
+            margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, eth_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
             # if margin1 + margin2 + self.used_margin > (self.margin_manager.get_available_margin()):
             #     print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             #     return
@@ -298,8 +303,8 @@ class PairsTradingBacktester:
         # self.portfolio['cash'] -= MockTradingSingle.shared.calculate_reqired_margin(1, btc_size, btc_price)
         self.portfolio['BTC_position'] += btc_size
 
-        self.margin_manager.add_position(ETHSymbolInfo.SYMBOL_NAME, abs(eth_size), 1 if eth_size > 0 else -1, eth_price, 3)
-        self.margin_manager.add_position(BTCSymbolInfo.SYMBOL_NAME, abs(btc_size), 1 if btc_size > 0 else -1, btc_price, 25)
+        self.margin_manager.add_position(XSymbolInfo.SYMBOL_NAME, abs(eth_size), 1 if eth_size > 0 else -1, eth_price, XSymbolInfo.SYMBOL_LEVERAGE)
+        self.margin_manager.add_position(BTCSymbolInfo.SYMBOL_NAME, abs(btc_size), 1 if btc_size > 0 else -1, btc_price, BTCSymbolInfo.SYMBOL_LEVERAGE)
         
         self.createOrderExcute(eth_size,btc_size,eth_price,btc_price)
 
@@ -445,7 +450,7 @@ if __name__ == "__main__":
     # all_data = data1 + data2 + data3
     # all_data = pd.concat([data1, data2, data3], ignore_index=False)
     all_data[[BTCSymbolInfo.SYMBOL_NAME]] = all_data[[BTCSymbolInfo.SYMBOL_NAME]]
-    all_data[[ETHSymbolInfo.SYMBOL_NAME]] = all_data[[ETHSymbolInfo.SYMBOL_NAME]]
+    all_data[[XSymbolInfo.SYMBOL_NAME]] = all_data[[XSymbolInfo.SYMBOL_NAME]]
 
     # use first 1000 records
 # 策略总收益: 0.32%
@@ -480,8 +485,8 @@ if __name__ == "__main__":
             # del backtester
             # del MockTradingSingle.shared
             # gc.collect()
-    MockTradingSingle.shared = MockTrading(balance=1000,leverage=100)
-    backtester = PairsTradingBacktester(entry_z=1.8, exit_z=0.7,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
+    MockTradingSingle.shared = MockTrading(balance=5000,leverage=100)
+    backtester = PairsTradingBacktester(entry_z=1.8, exit_z=0.7, initial_cash= 5000,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
     backtester.run_backtest_2(all_data, window=180)
 
     

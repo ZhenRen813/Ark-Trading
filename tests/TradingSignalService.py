@@ -3,7 +3,7 @@ from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
 import numpy as np
 
-class ETHSymbolInfo:
+class XSymbolInfo:
     SYMBOL_NAME = "US 500"
     SYMBOL_LEVERAGE = 20
 
