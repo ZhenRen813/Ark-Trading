@@ -254,7 +254,7 @@ class PairsTradingBacktester:
                 Y_size = X_size * abs(self.service.hedge_ratio)
             es_margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
-            self.print("es_margin",es_margin1 + es_margin2)
+            self.print(f"es_margin{es_margin1 + es_margin2}")
             times = round(position_value / (es_margin1 + es_margin2),0)
             Y_size = Y_size * times
             X_size = X_size * times
@@ -426,7 +426,7 @@ class PairsTradingBacktester:
         }
 
         # 将 self.service.zsocres 绘制成折线图
-        self.print("绘制折线图",len(self.service.zsocres))
+        self.print(f"绘制折线图{len(self.service.zsocres)}")
         # plt.plot(self.service.zsocres)
         # plt.show()
         
@@ -471,7 +471,7 @@ if __name__ == "__main__":
     for entry_z in entry_z_arr:
         for window in windows:
             # MockTradingSingle.shared = MockTrading(balance=1000000,leverage=100)
-            self.print(f"window:{window}  entry_z={entry_z}")
+            print(f"window:{window}  entry_z={entry_z}")
             # backtester = PairsTradingBacktester(entry_z=entry_z, exit_z=0.5,window=window,closeOrderExcute=closeOrder,createOrderExcute=createOrder)
             # backtester.run_backtest_2(all_data, window=window)
             # self.print(f"建仓次数:{backtester.createOrder}")
@@ -494,8 +494,8 @@ if __name__ == "__main__":
     backtester.run_backtest_2(all_data, window=180)
 
     
-    self.print(f"建仓次数:{backtester.createOrder}")
-    self.print(f"平仓次数:{backtester.closeOrder}")
+    print(f"建仓次数:{backtester.createOrder}")
+    print(f"平仓次数:{backtester.closeOrder}")
 
     MockTradingSingle.shared._generate_report()
 
