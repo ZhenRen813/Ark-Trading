@@ -18,7 +18,6 @@ def log(msg):
         f.write(f"{datetime.datetime.now()}: {msg}\n")
 
 class MarginParams:
-    MIN_POSITION_SIZE = 1
     MAX_POSITION_Value = 3000
 
 
@@ -243,10 +242,10 @@ class PairsTradingBacktester:
             # Y_size = position_value / Y_price
             # X_size = position_value / X_price
             if abs(self.service.hedge_ratio) <= 1:
-                Y_size = MarginParams.MIN_POSITION_SIZE
+                Y_size = YSymbolInfo.MIN_LOT_SIZE
                 X_size = Y_size / abs(self.service.hedge_ratio) #self.hedge_ratio
             else:
-                X_size = MarginParams.MIN_POSITION_SIZE
+                X_size = XSymbolInfo.MIN_LOT_SIZE
                 Y_size = X_size * abs(self.service.hedge_ratio)
             es_margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
@@ -265,7 +264,7 @@ class PairsTradingBacktester:
             # Y_size = Y_size * times
             # X_size = X_size * times
 
-            if Y_size < MarginParams.MIN_POSITION_SIZE or X_size < MarginParams.MIN_POSITION_SIZE:
+            if Y_size < YSymbolInfo.MIN_LOT_SIZE or X_size < XSymbolInfo.MIN_LOT_SIZE:
                 log(f"头寸过小{Y_size},{X_size},取消交易,position_value:{position_value},time:{datetime.datetime.now()},Y_price:{Y_price},X_price:{X_price}")
                 return
             

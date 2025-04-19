@@ -6,10 +6,12 @@ import numpy as np
 class XSymbolInfo:
     SYMBOL_NAME = "US 500"
     SYMBOL_LEVERAGE = 20
+    MIN_LOT_SIZE = 1
 
 class YSymbolInfo:
     SYMBOL_NAME = "US TECH 100"
     SYMBOL_LEVERAGE = 20
+    MIN_LOT_SIZE = 1
 
 class SymbolInfo:
     def __init__(self, symbolId, symbolName, leverage):
