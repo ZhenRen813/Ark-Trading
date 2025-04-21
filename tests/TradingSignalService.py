@@ -75,7 +75,6 @@ class PairsTradeSignalService(BaseTradeSignalService):
         self.symbol_names = [ symbolName for symbolName in self.symbols.keys() ]
 
     def update_data(self, ticks:dict[str,TickData]):
-        self.print('suck')
         """更新数据"""
         # self.print(f"更新数据:Y:{Y_price},X:{X_price},datalen:{len(self.current_data)}")
         if ticks is not None:

@@ -246,12 +246,12 @@ class PairsTradingBacktester:
             # 仓位精度为两个小数点，价格精度为三个小数点
             # Y_size = position_value / Y_price
             # X_size = position_value / X_price
-            if abs(self.service.hedge_ratio) <= 1:
+            if abs(self.service.hedge_ratio) < 1:
                 Y_size = YSymbolInfo.MIN_LOT_SIZE
-                X_size = Y_size / abs(self.service.hedge_ratio) #self.hedge_ratio
+                X_size = Y_size / self.service.hedge_ratio #self.hedge_ratio
             else:
                 X_size = XSymbolInfo.MIN_LOT_SIZE
-                Y_size = X_size * abs(self.service.hedge_ratio)
+                Y_size = X_size * self.service.hedge_ratio #self.hedge_ratio
             es_margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             es_margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
             self.print(f"es_margin{es_margin1 + es_margin2}")
