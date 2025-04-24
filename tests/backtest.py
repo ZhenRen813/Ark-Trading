@@ -18,7 +18,6 @@ def log(msg):
         f.write(f"{datetime.datetime.now()}: {msg}\n")
 
 class MarginParams:
-    MAX_POSITION_Value = 3000
 
 
 market_prices = {XSymbolInfo.SYMBOL_NAME:0,YSymbolInfo.SYMBOL_NAME:0}
