@@ -280,9 +280,9 @@ class PairsTradingBacktester:
 
             margin1 = self.margin_manager.calculate_required_margin(YSymbolInfo.SYMBOL_NAME, Y_size, 1 if signal == 1 else -1, YSymbolInfo.SYMBOL_LEVERAGE)
             margin2 = self.margin_manager.calculate_required_margin(XSymbolInfo.SYMBOL_NAME, X_size, 1 if signal == 1 else -1, XSymbolInfo.SYMBOL_LEVERAGE)
-            # if margin1 + margin2 + self.used_margin > (self.margin_manager.get_available_margin()):
-            #     self.print(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-            #     return
+            if margin1 + margin2 > MarginParams.MAX_POSITION_Value:
+                log(f"保证金不足==================================,margin1:{margin1},margin2:{margin2}used_margin:{self.used_margin},balance:{self.balance}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                return
             
             if signal == 1:  # 做多价差
                 self._open_position(X_size, -Y_size, X_price, Y_price)
